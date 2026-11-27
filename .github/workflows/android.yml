@@ -43,6 +43,22 @@ jobs:
         run: python3 scripts/validate_cards.py
       - name: Unit tests and build
         run: gradle --no-daemon :app:testDebugUnitTest :app:assembleDebug
+      - name: Report APK size
+        run: |
+          python3 - <<'PY'
+          import os, zipfile
+          from collections import defaultdict
+          apk = 'app/build/outputs/apk/debug/app-debug.apk'
+          buckets = defaultdict(int)
+          with zipfile.ZipFile(apk) as z:
+              for f in z.infolist():
+                  n = f.filename
+                  k = 'DEX' if n.endswith('.dex') else 'Assets' if n.startswith('assets/') else 'Native libraries' if n.startswith('lib/') else 'Resources' if n.startswith('res/') or n == 'resources.arsc' else 'Other'
+                  buckets[k] += f.compress_size
+          lines = ['## APK size (debug)', f'Commit: {os.environ.get("GITHUB_SHA","")}', f'APK: {os.path.getsize(apk):,} bytes', 'Compressed ZIP entry sizes:'] + [f'- {k}: {v:,} bytes' for k,v in sorted(buckets.items())]
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f: f.write('\n'.join(lines)+'\n')
+          print('\n'.join(lines))
+          PY
       - name: Upload APK
         uses: actions/upload-artifact@v6
         with:

@@ -25,4 +25,24 @@
     <string name="category_physics">Viento y física</string>
     <string name="category_practice">En el agua</string>
     <string name="category_rules">Reglas de regata</string>
+    <string name="you">TÚ</string>
+    <string name="rival">RIVAL</string>
+    <string name="goal">META</string>
+    <string name="regata_art">Regata de cuatro veleros</string>
+    <string name="ups_art">Tres gaviotas sorprendidas</string>
+    <string name="ups">¡UPS!</string>
+    <string name="incorrect_answer">Respuesta incorrecta</string>
+    <string name="penalty_hint">Vuelta de penalización en el juego. Pierdes un corazón.</string>
+    <string name="continue_game">Continuar</string>
+    <string name="play_race">Jugar regata</string>
+    <string name="resume_race">Continuar regata</string>
+    <string name="collection">Mi colección · %1$d/%2$d</string>
+    <string name="trophies_stars">Copas: %1$d · Estrellas: %2$d</string>
+    <string name="race_won">¡REGATA GANADA!</string>
+    <string name="race_tied">¡EMPATE!</string>
+    <string name="race_second">SEGUNDO PUESTO</string>
+    <string name="race_lost">FIN DE REGATA</string>
+    <string name="back_album">Volver a la colección</string>
+    <string name="discovered">Descubierta</string>
+    <string name="locked">Por descubrir</string>
 </resources>
