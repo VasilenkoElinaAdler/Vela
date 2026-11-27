@@ -1,0 +1,62 @@
+{
+  "status": "design prototype, not yet integrated",
+  "figma": "https://www.figma.com/design/07Nr8yUqak3MJSrGmbuAw0?node-id=4-6",
+  "width": 350,
+  "height": 226,
+  "layers": [
+    {
+      "id": "4:7",
+      "name": "Fondo fijo · cielo, costa y mar",
+      "x": 0,
+      "y": 0,
+      "width": 350,
+      "height": 226,
+      "file": "background.svg"
+    },
+    {
+      "id": "4:16",
+      "name": "Barco ambiente 1 · amarillo",
+      "x": 96,
+      "y": 72,
+      "width": 59,
+      "height": 56,
+      "file": "boat_yellow.svg"
+    },
+    {
+      "id": "4:26",
+      "name": "Barco ambiente 2 · rosa",
+      "x": 280,
+      "y": 77,
+      "width": 55,
+      "height": 52,
+      "file": "boat_pink.svg"
+    },
+    {
+      "id": "4:36",
+      "name": "Rival · rojo · capa móvil",
+      "x": 169,
+      "y": 49,
+      "width": 124,
+      "height": 117,
+      "file": "boat_rival.svg"
+    },
+    {
+      "id": "4:54",
+      "name": "Jugador · turquesa · capa móvil",
+      "x": 2,
+      "y": 66,
+      "width": 168,
+      "height": 159,
+      "file": "boat_player.svg"
+    },
+    {
+      "id": "4:72",
+      "name": "Baliza de meta",
+      "x": 304,
+      "y": 145,
+      "width": 44,
+      "height": 65,
+      "file": "finish_buoy.svg"
+    }
+  ]
+}
