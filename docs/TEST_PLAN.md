@@ -7,3 +7,10 @@ Baseline: validate JSON, unique IDs, options, correct answer indexes, category b
 - Require review of unexplained growth; establish warning/failure thresholds only after measuring the optimized baseline. Document exceptions and obtain owner approval of release budget overruns.
 - Re-run gameplay, persistence, offline, readability, accessibility and launch tests after R8/resource shrinking or asset optimization. Check startup and responsiveness on lower-end hardware separately.
 - Initial observation: GitHub Actions run #2 displayed an artifact ZIP of 8.48 MB; exact APK, installed size and optimized download size have not been independently measured. Proposed 5 MB base / 10 MB expanded download targets are not yet release gates.
+
+## Regata 0.2.0 acceptance tests
+- Correct advancement, incorrect penalty loop (no forward movement), hearts, opponent progression, streak and finish rules after tuning, first/second/loss outcomes, tie handling, no duplicate answer or reward from repeated taps or relaunch.
+- Persist active race, shuffled options, opponent position, lives, stars, confirmations, trophies and cosmetics. Resume after rotation/process restart; save reward exactly once; verify update/migration from 0.1.0 without falsely granting mastery.
+- Album: first correct discovers, second in distinct race unlocks; no duplicate reward in same race; earned cards remain after defeat; category counts and explanations correct. Verify star spending, insufficient balance, equip owned cosmetics, educational colors unchanged.
+- Device tests: no internet, small screens, reduced motion, accessibility, prominent Inicio, no congratulatory UI before actual success; compare size and responsiveness with baseline; measure optimized build separately.
+- Qualitative play test: owner and supervised learners play successive short regattas voluntarily; observe random tapping, thoughtfulness, feedback comprehension, reward comprehension, desire to replay and whether collection is useful as a reference. No tracking/telemetry. Record feedback and revise game loop before expanding card count or translating. No fabricated engagement metrics.
