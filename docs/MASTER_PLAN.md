@@ -47,3 +47,6 @@ Three lives per round, one star per correct response, one answer per card, color
 
 ## Workflow discipline
 One canonical card database under app/src/main/assets/cards. Stable IDs, targeted edits, no silent changes to approved cards. Keep code, content and UI separate. Each meaningful change has a commit and tests. Preserve unrelated repositories. Repository is public by owner choice; do not publish secrets, credentials, signing keys or personal data.
+
+## Approved artwork / UI separation — Decision 011
+2026-11-27 — Decision 011 (owner approved): preserve the two supplied finished Regata and gulls illustrations as single, static, unaltered raster artwork layers (WebP compression permitted; no redrawing, cropping, separation, or vector substitution). Figma is for editable UI: base colors, panels, hearts, stars, buttons, progress track, small boat markers and finish flag. Compose animates the markers, handles gameplay, sound and persistence. Four boats in the illustration are static; only the two small progress markers move. Supersedes the rejected vector artwork preview under design/regata-vector-preview; do not package it. No change to the 30 cards, collection or agreed gameplay. Do not reopen visual design discussions. Current preview values remain provisional. See docs/REGATA_LAYERS.md.
