@@ -1,0 +1,2 @@
+# Design
+Bubble Gum is approved as the single style. Dark backing, purple field; for future diagrams: beige hull, yellow wind arrows, red boom, bright contrasting rudder. No theme switcher or Bubble Gum label in headers. Hearts show health, stars earned; equal overall row widths in final design. Prominent Inicio in game, congratulation only on success. Baseline HEX values, icon and layout are provisional; no final illustrations yet.

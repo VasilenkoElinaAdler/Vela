@@ -1,0 +1,452 @@
+[
+  {
+    "id": "VELA-001",
+    "category": "equipment",
+    "difficulty": 1,
+    "question": "Trabajo debajo del casco. Ayudo a reducir el desplazamiento lateral de la embarcación. En un Optimist me pueden subir y bajar.",
+    "options": [
+      "Timón",
+      "Orza",
+      "Botavara",
+      "Percha"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La orza proporciona resistencia lateral al abatimiento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-002",
+    "category": "equipment",
+    "difficulty": 2,
+    "question": "Aunque la escota esté suelta, puedo limitar la subida de la botavara. También ayudo a controlar la tensión de la baluma.",
+    "options": [
+      "Driza",
+      "Escota",
+      "Contra",
+      "Pujamen"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La contra limita la elevación de la botavara y permite controlar la baluma.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-003",
+    "category": "equipment",
+    "difficulty": 1,
+    "question": "Soy el borde de una vela triangular que une el puño de driza con el puño de escota. ¿Qué borde soy?",
+    "options": [
+      "Grátil",
+      "Baluma",
+      "Pujamen",
+      "Mástil"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La baluma es el borde posterior de la vela.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-004",
+    "category": "equipment",
+    "difficulty": 1,
+    "question": "En un Optimist trabajo en diagonal. Un extremo se apoya en el mástil y el otro sostiene el puño superior exterior de la vela.",
+    "options": [
+      "Botavara",
+      "Caña",
+      "Percha",
+      "Orza"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La percha mantiene extendida la parte superior de la vela.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-005",
+    "category": "equipment",
+    "difficulty": 2,
+    "question": "Soy una pequeña cinta que se mueve sobre la superficie de la vela. Permito observar cómo circula el aire a su alrededor.",
+    "options": [
+      "Catavientos",
+      "Grátil",
+      "Sable",
+      "Cabo de remolque"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Los catavientos ayudan a interpretar el flujo de aire sobre la vela.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-006",
+    "category": "maneuver",
+    "difficulty": 1,
+    "question": "Navego de través y cambio el rumbo hasta navegar de ceñida, sin cambiar de amura. ¿Qué estoy haciendo?",
+    "options": [
+      "Arribar",
+      "Orzar",
+      "Trasluchar",
+      "Cazar"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Orzar es acercar la proa a la dirección de donde viene el viento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-007",
+    "category": "maneuver",
+    "difficulty": 1,
+    "question": "Navego de ceñida y paso a un largo sin cambiar de amura. ¿Qué acción realizo?",
+    "options": [
+      "Orzar",
+      "Virar por avante",
+      "Arribar",
+      "Lascar"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Arribar es alejar la proa de la dirección de donde viene el viento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-008",
+    "category": "maneuver",
+    "difficulty": 1,
+    "question": "Cambio de amura haciendo que la proa pase por la dirección de donde viene el viento. ¿Qué maniobra realizo?",
+    "options": [
+      "Trasluchar",
+      "Virar por avante",
+      "Arribar",
+      "Fachear"
+    ],
+    "correctAnswer": 1,
+    "explanation": "En la virada por avante la proa pasa por la posición de proa al viento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-009",
+    "category": "maneuver",
+    "difficulty": 1,
+    "question": "Cambio de amura haciendo que la popa pase por la dirección de donde viene el viento. ¿Qué maniobra realizo?",
+    "options": [
+      "Virar por avante",
+      "Trasluchar",
+      "Orzar",
+      "Cazar"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Al trasluchar, la popa pasa por la dirección de donde viene el viento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-010",
+    "category": "maneuver",
+    "difficulty": 1,
+    "question": "Mantengo el rumbo y recojo escota para acercar la botavara al centro del barco. ¿Qué hago con la escota?",
+    "options": [
+      "Lascar",
+      "Cazar",
+      "Largar por completo",
+      "Hacer firme"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Cazar la escota permite cerrar la vela.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-011",
+    "category": "course",
+    "difficulty": 1,
+    "question": "Navego lo más cerca posible de la dirección del viento, manteniendo la vela portando. ¿En qué rumbo navego?",
+    "options": [
+      "Ceñida",
+      "Través",
+      "Largo",
+      "Empopada"
+    ],
+    "correctAnswer": 0,
+    "explanation": "La ceñida permite ganar barlovento navegando cerca del viento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-012",
+    "category": "course",
+    "difficulty": 1,
+    "question": "El viento real entra perpendicularmente a la línea de crujía del barco. ¿En qué rumbo navego?",
+    "options": [
+      "Ceñida",
+      "Través",
+      "Largo",
+      "Empopada"
+    ],
+    "correctAnswer": 1,
+    "explanation": "En el través el viento real forma un ángulo de 90° con la dirección de la proa.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-013",
+    "category": "course",
+    "difficulty": 1,
+    "question": "Recibo el viento real por la aleta, entre el través y la empopada. ¿En qué rumbo navego?",
+    "options": [
+      "Ceñida",
+      "Través",
+      "Largo",
+      "Empopada"
+    ],
+    "correctAnswer": 2,
+    "explanation": "En un largo, el viento entra oblicuamente desde la parte posterior del barco.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-014",
+    "category": "course",
+    "difficulty": 1,
+    "question": "El viento real llega directamente desde atrás, por la popa. ¿En qué rumbo navego?",
+    "options": [
+      "Ceñida",
+      "Través",
+      "Largo",
+      "Empopada"
+    ],
+    "correctAnswer": 3,
+    "explanation": "En empopada la proa apunta hacia donde sopla el viento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-015",
+    "category": "course",
+    "difficulty": 1,
+    "question": "Mi proa apunta directamente hacia el lugar de donde viene el viento y la vela flamea. ¿En qué posición estoy?",
+    "options": [
+      "Proa al viento",
+      "Ceñida",
+      "Través",
+      "Empopada"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Una vela convencional no puede mantener la propulsión normal navegando directamente contra el viento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-016",
+    "category": "physics",
+    "difficulty": 2,
+    "question": "El viento real no cambia. Sin embargo, cuando el barco acelera, cambia el viento que siente el regatista. ¿Qué viento está sintiendo?",
+    "options": [
+      "Viento térmico",
+      "Viento real",
+      "Viento aparente",
+      "Viento geostrófico"
+    ],
+    "correctAnswer": 2,
+    "explanation": "El viento aparente resulta de la combinación del viento real y el movimiento del barco.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-017",
+    "category": "physics",
+    "difficulty": 2,
+    "question": "La proa apunta en una dirección, pero el barco se desplaza por el agua ligeramente hacia sotavento. No hay corriente. ¿Cómo se llama este fenómeno?",
+    "options": [
+      "Escora",
+      "Abatimiento",
+      "Deriva por corriente",
+      "Cabeceo"
+    ],
+    "correctAnswer": 1,
+    "explanation": "El abatimiento es la desviación lateral de la trayectoria respecto a la dirección de la proa, causada por el viento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-018",
+    "category": "physics",
+    "difficulty": 1,
+    "question": "El viento ejerce una fuerza sobre la vela y el casco se inclina lateralmente hacia sotavento. ¿Cómo se llama esta inclinación?",
+    "options": [
+      "Cabeceo",
+      "Abatimiento",
+      "Escora",
+      "Guiñada"
+    ],
+    "correctAnswer": 2,
+    "explanation": "La escora es la inclinación transversal del barco.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-019",
+    "category": "physics",
+    "difficulty": 2,
+    "question": "Durante unos segundos aumenta considerablemente la velocidad del viento y después vuelve a su intensidad anterior. ¿Qué ha pasado?",
+    "options": [
+      "Una racha",
+      "Una rolada",
+      "Una calma",
+      "Un cambio de marea"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Una racha es un aumento temporal de la velocidad del viento.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-020",
+    "category": "physics",
+    "difficulty": 3,
+    "question": "El barco acelera sobre agua casi plana. La sustentación hidrodinámica aumenta y sostiene una parte importante del peso del casco. ¿Qué fenómeno se está produciendo?",
+    "options": [
+      "Abatimiento",
+      "Planeo",
+      "Cabeceo",
+      "Escora"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Durante el planeo, la sustentación hidrodinámica soporta una parte importante del peso del barco.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-021",
+    "category": "practice",
+    "difficulty": 2,
+    "question": "Navegas de ceñida en un Optimist. Llega una racha fuerte y el barco escora demasiado hacia sotavento. Sin cambiar de rumbo, ¿qué haces con la escota para reducir la fuerza de la vela?",
+    "options": [
+      "Cazar más",
+      "Lascar",
+      "Bloquear la escota",
+      "Mantenerla inmóvil"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Lascar permite abrir la vela y reducir su fuerza y el momento de escora.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-022",
+    "category": "practice",
+    "difficulty": 3,
+    "question": "Navegas de ceñida con foque. Su catavientos de barlovento se levanta porque el foque está demasiado abierto. Sin modificar el rumbo, ¿qué haces?",
+    "options": [
+      "Lascar el foque",
+      "Cazar el foque",
+      "Lascar la mayor",
+      "Subir la orza"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Cazar el foque aumenta su ángulo de ataque, en las condiciones descritas.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-023",
+    "category": "practice",
+    "difficulty": 2,
+    "question": "Tu Optimist ha volcado durante un entrenamiento. Llevas chaleco, estás junto al barco, no hay peligro inmediato y la embarcación de apoyo está cerca. ¿Qué haces?",
+    "options": [
+      "Nadar hasta la playa",
+      "Permanecer junto al barco y avisar al entrenador",
+      "Perseguir el material que se aleja",
+      "Nadar hacia otro Optimist"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Permanecer junto al barco facilita que el entrenador te localice. Sigue sus instrucciones.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-024",
+    "category": "practice",
+    "difficulty": 2,
+    "question": "Vas a realizar una trasluchada controlada. ¿Cómo debes colocarte antes de que la botavara cambie de banda?",
+    "options": [
+      "De pie junto al mástil",
+      "Agachado y fuera del recorrido de la botavara",
+      "Con la cabeza a la altura de la botavara",
+      "Con la cabeza en la trayectoria de la botavara"
+    ],
+    "correctAnswer": 1,
+    "explanation": "La botavara puede cruzar con fuerza. Mantén la cabeza y el cuerpo fuera de su recorrido.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-025",
+    "category": "practice",
+    "difficulty": 2,
+    "question": "Navegas de ceñida en un Optimist con la orza parcialmente levantada. Hay profundidad suficiente y quieres aumentar la resistencia al abatimiento. ¿Qué haces?",
+    "options": [
+      "Levantar más la orza",
+      "Bajar la orza",
+      "Girar el timón constantemente",
+      "Levantar el timón"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Bajar la orza aumenta la superficie sumergida que proporciona resistencia lateral.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-026",
+    "category": "rules",
+    "difficulty": 1,
+    "question": "En una regata, dos barcos navegan en bordadas opuestas y sus trayectorias se cruzan. Ninguno está virando. No hay balizas ni obstáculos cerca. ¿Cuál tiene derecho de paso?",
+    "options": [
+      "El amurado a babor",
+      "El amurado a estribor",
+      "El situado más a barlovento",
+      "El situado más a sotavento"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Regla 10: el barco amurado a babor debe mantenerse separado del amurado a estribor. También se debe evitar el contacto conforme a la regla 14.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-027",
+    "category": "rules",
+    "difficulty": 2,
+    "question": "En una regata, dos barcos navegan en la misma bordada y están comprometidos. El azul está a barlovento del rojo. ¿Cuál debe mantenerse separado?",
+    "options": [
+      "El rojo",
+      "El azul",
+      "Ambos por igual según la regla 11",
+      "Ninguno según la regla 11"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Regla 11: el barco de barlovento debe mantenerse separado del de sotavento. También se debe evitar el contacto conforme a la regla 14.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-028",
+    "category": "rules",
+    "difficulty": 2,
+    "question": "Dos barcos navegan en la misma bordada y no están comprometidos. El azul se aproxima al rojo desde una posición libre a popa. ¿Cuál debe mantenerse separado?",
+    "options": [
+      "El rojo",
+      "El azul",
+      "Ambos por igual según la regla 12",
+      "Ninguno según la regla 12"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Regla 12: el barco libre a popa debe mantenerse separado del barco libre a proa. También se debe evitar el contacto conforme a la regla 14.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-029",
+    "category": "rules",
+    "difficulty": 3,
+    "question": "En una regata, el azul está virando por avante. Ya ha pasado de proa al viento, pero todavía no ha alcanzado un rumbo de ceñida. El otro barco no está virando. ¿Quién debe mantenerse separado?",
+    "options": [
+      "El azul",
+      "El otro barco",
+      "El situado a sotavento",
+      "Siempre el amurado a babor"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Regla 13: durante esta fase de la virada, el azul debe mantenerse separado. También se debe evitar el contacto conforme a la regla 14.",
+    "status": "draft"
+  },
+  {
+    "id": "VELA-030",
+    "category": "rules",
+    "difficulty": 3,
+    "question": "Dos barcos en la misma bordada se acercan comprometidos a una baliza de sotavento que deben dejar por la misma banda. Se aplica la regla 18. Cuando el primero alcanza la zona, el azul está por fuera y el rojo por dentro. ¿Quién debe dar espacio en baliza?",
+    "options": [
+      "El rojo",
+      "El azul",
+      "El que entre segundo en la zona",
+      "El que navegue más despacio"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Regla 18.2(a)(1): en estas condiciones, el barco exterior debe dar espacio en baliza al interior. También se debe evitar el contacto conforme a la regla 14.",
+    "status": "draft"
+  }
+]

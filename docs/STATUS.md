@@ -1,0 +1,2 @@
+# Status — 2026-11-27
+Owner-approved plan recorded. Baseline source 0.1.0 imported from existing archive; Spanish deck of 30 draft cards. Local archive card validator passed; Android compile and on-device testing not yet verified. No APK/AAB confirmed. Workflow must be added and execution verified separately. Baseline limitations and provisional choices are in MASTER_PLAN.md. Never upload to Play at this stage.

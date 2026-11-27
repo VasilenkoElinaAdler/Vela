@@ -1,0 +1,2 @@
+# Requirements
+See MASTER_PLAN.md for approved scope and gates. Native Android, single Bubble Gum identity, offline six-category card game. No advertising, login, telemetry or network permissions. Initial 30 Spanish reference cards with stable IDs; all require coach approval. Four-language architecture, with only Spanish implemented at baseline. UI text resources independent from card data. No production release until review, testing and signing are complete.

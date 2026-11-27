@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Vela Elina Cards</string>
+    <string name="home">← Inicio</string>
+    <string name="title">Vela Elina Cards</string>
+    <string name="draft">Versión de prueba · contenido provisional</string>
+    <string name="all">Todas las tarjetas</string>
+    <string name="mastered">Tarjetas acertadas: %1$d / %2$d</string>
+    <string name="choose">Elige una categoría</string>
+    <string name="next">Siguiente →</string>
+    <string name="finish">Ver resultado</string>
+    <string name="bravo">¡BRAVO!</string>
+    <string name="incorrect">Esta vez no</string>
+    <string name="correct">Respuesta correcta: %1$s</string>
+    <string name="result">Fin de la ronda</string>
+    <string name="score">Aciertos: %1$d de %2$d tarjetas respondidas</string>
+    <string name="retry">Jugar otra vez</string>
+    <string name="health">Vidas: %1$d de 3</string>
+    <string name="stars">Estrellas: %1$d</string>
+    <string name="level">Nivel %1$d</string>
+    <string name="counter">%1$d / %2$d</string>
+    <string name="error">No se pudieron cargar las tarjetas.</string>
+    <string name="category_equipment">Partes y material</string>
+    <string name="category_maneuver">Maniobras</string>
+    <string name="category_course">Rumbos</string>
+    <string name="category_physics">Viento y física</string>
+    <string name="category_practice">En el agua</string>
+    <string name="category_rules">Reglas de regata</string>
+</resources>

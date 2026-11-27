@@ -1,0 +1,2 @@
+# Release procedure
+First build debug APK only (applicationId suffix .debug); GitHub Actions artifact. Fresh debug keys on different runners can prevent upgrades; configure stable test signing before requiring in-place upgrades. Keep signing keys/passwords out of public repository. Later approve final app ID, set increasing versionCode, sign upload AAB, use Play App Signing, verify current policy, Families, privacy and Data Safety, age rating, listing and applicable closed-test gates. Never publish without owner approval.
