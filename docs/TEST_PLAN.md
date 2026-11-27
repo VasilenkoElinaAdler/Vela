@@ -1,2 +1,9 @@
 # Verification gates
 Baseline: validate JSON, unique IDs, options, correct answer indexes, category balance and status; parse resource XML; run JVM unit tests; assemble debug APK; verify APK artifact. On real Android: launch, play every category, right/wrong answers, double tap protection, loss of last life, last card, return Inicio, rotate/relaunch, airplane mode, small screen and large font. Record failures. Baseline known limitations: unfinished round resets, no stable option IDs, no difficulty filter, one locale, provisional palette. Next stage adds persistence and tests; release requires approval and all mandatory checks passing.
+
+## Package size and mobile efficiency — permanent gate
+- For every successful build record commit, version, build type, APK/AAB byte size, artifact ZIP separately and delta versus the previous comparable build. Implement automatic CI reporting in the next technical stage; missing data must be marked pending, not estimated as measured.
+- Compare unoptimized and optimized release-like output; inspect compressed contributions from DEX, resources, assets and native libraries. For Play release use device-specific download estimates and measure installed storage on representative Android hardware; do not compare these directly with ZIP/AAB size.
+- Require review of unexplained growth; establish warning/failure thresholds only after measuring the optimized baseline. Document exceptions and obtain owner approval of release budget overruns.
+- Re-run gameplay, persistence, offline, readability, accessibility and launch tests after R8/resource shrinking or asset optimization. Check startup and responsiveness on lower-end hardware separately.
+- Initial observation: GitHub Actions run #2 displayed an artifact ZIP of 8.48 MB; exact APK, installed size and optimized download size have not been independently measured. Proposed 5 MB base / 10 MB expanded download targets are not yet release gates.
