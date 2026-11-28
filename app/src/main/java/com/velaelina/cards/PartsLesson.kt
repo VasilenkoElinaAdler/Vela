@@ -20,6 +20,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -45,13 +46,13 @@ private val PartsPink = VelaPalette.Pink
 private val PartsGold = VelaPalette.Gold
 private val PartsMint = VelaPalette.Mint
 private val PartsMuted = VelaPalette.Muted
-private val PartFiles = setOf("boat.webp","proa.ogg","popa.ogg","babor.ogg","estribor.ogg","correct.ogg","ups.ogg","finish.ogg")
+private val PartFiles = BoatPart.entries.map{it.audio}.toSet() + setOf("boat.webp","correct.ogg","ups.ogg","finish.ogg","reaction_error.webp","reaction_streak.webp","reaction_finish.webp")
 private class PartAssets(context: Context) {
     private val cache = File(context.cacheDir,"vela_parts_v1").apply { mkdirs() }
     private var player: MediaPlayer? = null
-    val bitmap = runCatching {
+    private val bitmaps = runCatching {
         val data = mutableMapOf<String,ByteArray>()
-        ZipInputStream(context.assets.open("vela_parts_assets.zip")).use { zip ->
+        ZipInputStream(context.assets.open("vela_parts_assets_v2.zip")).use { zip ->
             while(true) {
                 val entry = zip.nextEntry ?: break
                 if(entry.name in PartFiles) {
@@ -64,9 +65,16 @@ private class PartAssets(context: Context) {
         }
         require(data.keys == PartFiles)
         data.filterKeys { it.endsWith(".ogg") }.forEach { (name, bytes) -> File(cache,name).writeBytes(bytes) }
-        val bytes = data.getValue("boat.webp")
-        BitmapFactory.decodeByteArray(bytes,0,bytes.size)?.asImageBitmap()
-    }.getOrNull()
+        data.filterKeys { it.endsWith(".webp") }.mapValues { (_,bytes) ->
+            requireNotNull(BitmapFactory.decodeByteArray(bytes,0,bytes.size)).asImageBitmap()
+        }
+    }.getOrNull().orEmpty()
+    val bitmap get() = bitmaps["boat.webp"]
+    fun reaction(kind:GameReaction):ImageBitmap? = bitmaps[when(kind){
+        GameReaction.ERROR -> "reaction_error.webp"
+        GameReaction.STREAK -> "reaction_streak.webp"
+        GameReaction.COMPLETE -> "reaction_finish.webp"
+    }]
     private val ctx = context
     fun play(name:String) {
         release()
@@ -83,14 +91,12 @@ internal fun PartsLesson(onHome:()->Unit) {
     DisposableEffect(assets) { onDispose { assets.release() } }
     val store=remember { GameProgressStore(context.applicationContext) }
     var state by remember { mutableStateOf(PartsState.resume(store.load(),store.previousPartsOrder()).also { store.savePartsOrder(it.questions) }) }
-    var celebrated by remember { mutableStateOf(false) }
     LaunchedEffect(state.feedback) {
         if(state.feedback != null) {
-            delay(if(state.feedback?.correct==true) 520L else 650L)
+            delay(if(state.feedback?.reaction!=null) ReactionRules.DISPLAY_MS else if(state.feedback?.correct==true) 520L else 650L)
             state=state.advance()
         }
     }
-    LaunchedEffect(state.won) { if(state.won && !celebrated && state.questions.isNotEmpty()) { celebrated=true; assets.play("finish.ogg") } }
     Column(Modifier.fillMaxSize().safeDrawingPadding().background(PartsNight).padding(8.dp),
         verticalArrangement=Arrangement.spacedBy(7.dp)) {
         OutlinedButton(onClick=onHome,modifier=Modifier.heightIn(min=48.dp),
@@ -106,13 +112,16 @@ internal fun PartsLesson(onHome:()->Unit) {
                 Box(Modifier.weight(1f).fillMaxWidth(),contentAlignment=Alignment.Center) {
                     Text(stringResource(R.string.parts_asset_error),textAlign=TextAlign.Center)
                 }
+            } else if(state.feedback?.reaction != null) {
+                val kind = requireNotNull(state.feedback?.reaction)
+                ReactionPanel(kind, assets.reaction(kind), Modifier.weight(1f).fillMaxWidth())
             } else if(state.done) {
                 Box(Modifier.weight(1f).fillMaxWidth(),contentAlignment=Alignment.Center) {
                     Column(horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(14.dp)) {
                         Text(stringResource(if(state.won) R.string.parts_completed else R.string.parts_no_lives),fontSize=34.sp,fontWeight=FontWeight.ExtraBold,color=PartsGold,textAlign=TextAlign.Center)
                         Text(stringResource(R.string.progress_stars,state.stars),fontSize=22.sp)
                         if(state.won) Text(stringResource(R.string.parts_practice_note),textAlign=TextAlign.Center,fontSize=16.sp)
-                        Button(onClick={assets.release();celebrated=false;state=(if(state.won) PartsState.practice(state.progress,store.previousPartsOrder()) else PartsState.resume(store.restart(),store.previousPartsOrder())).also { store.savePartsOrder(it.questions) }},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
+                        Button(onClick={assets.release();state=(if(state.won) PartsState.practice(state.progress,store.previousPartsOrder()) else PartsState.resume(store.restart(),store.previousPartsOrder())).also { store.savePartsOrder(it.questions) }},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
                         OutlinedButton(onClick=onHome,modifier=Modifier.fillMaxWidth().heightIn(min=48.dp)){Text(stringResource(R.string.parts_exit),fontSize=20.sp)}
                     }
                 }
@@ -139,7 +148,7 @@ internal fun PartsLesson(onHome:()->Unit) {
                                 if(next!=state) {
                                     store.save(next.progress)
                                     state=next
-                                    assets.play(if(next.feedback?.correct==true)"correct.ogg" else "ups.ogg")
+                                    assets.play(when { next.feedback?.reaction==GameReaction.COMPLETE -> "finish.ogg"; next.feedback?.correct==true -> "correct.ogg"; else -> "ups.ogg" })
                                 }
                             }
                         }) {

@@ -1,18 +1,2 @@
-# Partes del barco — curriculum coverage
-Recovered from the original November 5 lesson (side view; previously called lesson 3). The owner has since moved this topic to the beginning of the game, not authorized reducing its contents.
-Required original terms (11):
-- Proa
-- Popa
-- Casco
-- Regala
-- Mástil
-- Botavara
-- Vela mayor
-- Foque
-- Orza
-- Timón
-- Caña
-
-Additional terms retained from the current top-view prototype: Babor, Estribor. Final grouping across projections remains to be reviewed; do not discard either term.
-All terms must be eligible to appear in random order and have local pronunciation assets. Each target must be technically correct and distinguishable in the relevant projection (including Timón vs Caña, Regala vs Babor/Estribor). Current 4-target technical prototype uses only Proa, Popa, Babor, Estribor. Current top-view art does not explicitly show the sails and cannot alone teach all the original side-view terms. Recover/reuse the appropriate original art if available; do not label non-existent shapes. No changes to the card deck until genuine duplication is reviewed.
-Acceptance: independently maintained catalogue must be compared to actual task IDs, playable targets and audio; randomized scheduling covers every required term across a complete lesson; no silently omitted terms, no artificial reward target derived from image; no duplicate star credit. Coach validates technical accuracy and teaching suitability, not whether required content is missing.
+# First lesson — approved current diagram (Decision 019)
+Exactly seven required terms: PROA, POPA, BABOR, ESTRIBOR, TIMÓN, FOQUE, VELA MAYOR. Timón is the cyan stern element; Foque is the upper red element; Vela mayor is the lower red element, as specified by the owner for this stylized diagram. No separate Caña. Do not add Casco, Regala, Mástil, Botavara, Orza or other terms to this diagram. Other original curriculum terms remain historical in Decision 018 and may be revisited for later drawings only after owner approval. Independent machine-readable catalogue: parts_curriculum.json. Test all seven and all 14 asset entries. No other curriculum edits.

@@ -8,3 +8,6 @@ Owner direction: make basic functional/UX regressions a developer responsibility
 
 ## Curriculum correction — Decision 018
 The 4-term technical prototype is not a complete lesson. See docs/PARTS_CURRICULUM.md for recovered original catalogue and independent coverage gate. Do not advance to other topics before all required terms and accurate targets/audio are validated.
+
+## Decision 019
+Independent catalogue and asset validation, all seven hit targets, randomness, repeated awards, exact reaction thresholds and 1500ms, completion priority, actual emulator reaction views. Compile Android test source before emulator startup; fix previous TouchInjectionScope.size compilation error using centre coordinates. Keep APK upload gated on all checks.

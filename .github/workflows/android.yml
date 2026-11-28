@@ -41,8 +41,10 @@ jobs:
           test -x "$SDK/build-tools/35.0.0/aapt2"
       - name: Validate card data
         run: python3 scripts/validate_cards.py
+      - name: Validate first lesson assets and independent curriculum
+        run: python3 scripts/validate_parts.py
       - name: Unit tests and build
-        run: gradle --no-daemon :app:testDebugUnitTest :app:assembleDebug
+        run: gradle --no-daemon :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest
       - name: Report APK size
         run: |
           python3 - <<'PY'

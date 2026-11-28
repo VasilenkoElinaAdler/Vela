@@ -21,19 +21,30 @@ class GameJourneyTest {
             "POPA" -> 435f to 1306f
             "BABOR" -> 363f to 1090f
             "ESTRIBOR" -> 648f to 1090f
+            "TIMÓN" -> 505f to 1380f
+            "FOQUE" -> 553f to 850f
+            "VELA MAYOR" -> 465f to 1040f
             else -> error("Unexpected term: $word")
         }
         rule.onNodeWithTag("parts_field").performTouchInput {
-            click(Offset((px-66f)/879f*size.width,(py-589f)/899f*size.height))
+            click(Offset((px-66f)/879f*center.x*2f,(py-589f)/899f*center.y*2f))
         }
         rule.waitForIdle()
     }
     private fun completeRound(): List<String> {
         val order=mutableListOf<String>()
-        repeat(4) {
+        repeat(7) { i ->
             val term=word()
             order += term
+            rule.mainClock.autoAdvance=false
             tapPart(term)
+            rule.mainClock.advanceTimeBy(100)
+            when(i){
+                2,5 -> rule.onNodeWithTag("reaction_streak").assertExists()
+                6 -> rule.onNodeWithTag("reaction_complete").assertExists()
+            }
+            rule.mainClock.advanceTimeBy(1800)
+            rule.mainClock.autoAdvance=true
             rule.waitUntil(5000) {
                 val nodes=rule.onAllNodesWithTag("parts_word").fetchSemanticsNodes()
                 nodes.isEmpty() || nodes.first().config[androidx.compose.ui.semantics.SemanticsProperties.Text].first().text != term
@@ -60,29 +71,35 @@ class GameJourneyTest {
         assertEquals(10,progress().lives)
         assertEquals(0,progress().stars)
         val first=word()
-        tapPart(listOf("PROA","POPA","BABOR","ESTRIBOR").first{it!=first})
+        val wrong=listOf("PROA","POPA","BABOR","ESTRIBOR","TIMÓN","FOQUE","VELA MAYOR").first{it!=first}
+        tapPart(wrong)
         rule.waitUntil(5000){progress().lives==9}
-        rule.waitForIdle()
-        // Wait for feedback lock to release before next accepted tap.
         rule.mainClock.advanceTimeBy(800)
+        rule.mainClock.autoAdvance=false
+        tapPart(wrong)
+        rule.mainClock.advanceTimeBy(100)
+        rule.onNodeWithTag("reaction_error").assertExists()
+        rule.mainClock.advanceTimeBy(1800)
+        rule.mainClock.autoAdvance=true
+        rule.waitUntil(5000){progress().lives==8}
         assertEquals(0,progress().stars)
         val a=completeRound()
-        assertEquals(4,a.toSet().size)
-        assertEquals(4,progress().stars)
+        assertEquals(7,a.toSet().size)
+        assertEquals(7,progress().stars)
         rule.onNodeWithText("Practicar otra vez").performClick()
         val b=completeRound()
         assertNotEquals(a,b)
-        assertEquals(4,progress().stars)
-        assertEquals(9,progress().lives)
+        assertEquals(7,progress().stars)
+        assertEquals(8,progress().lives)
         rule.onNodeWithText("← Inicio").performClick()
         rule.onNodeWithText("Jugar").performClick()
         rule.onNodeWithText("Practicar otra vez").assertIsDisplayed()
-        assertEquals(4,progress().stars)
+        assertEquals(7,progress().stars)
         rule.activityRule.scenario.recreate()
         rule.waitForIdle()
         rule.onNodeWithText("Jugar").performClick()
         rule.onNodeWithText("Practicar otra vez").assertIsDisplayed()
-        assertEquals(4,progress().stars)
-        assertEquals(9,progress().lives)
+        assertEquals(7,progress().stars)
+        assertEquals(8,progress().lives)
     }
 }

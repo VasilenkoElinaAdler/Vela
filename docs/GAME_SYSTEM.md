@@ -29,3 +29,6 @@ Shared training engine, versioned storage, stable completed-task IDs, progress h
 
 ## 0.3.2 quality gate (Decision 017)
 See docs/QA_GATE.md. Home hierarchy and randomized learning order are required; practice awards no duplicate stars. Keep visual and functional regression tests in CI; release artefact gated on checks.
+
+## Decision 019 — common reaction policy
+Shared AnswerSeries/ReactionRules, reusable ReactionPanel. Two consecutive wrong, three consecutive correct, and lesson completion (priority) produce approved images; 1500 ms. No extra stars or lost hearts. Opposite answer resets run of responses; triggered series resets to zero. Navigation starts a fresh reaction series without changing saved training progress. Seven unique task IDs for this lesson. No unapproved edits.

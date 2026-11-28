@@ -15,3 +15,6 @@ Four distinct targets; initial 10 hearts, unique task stars, save on every accep
 
 ## Curriculum correction — Decision 018
 The 4-term technical prototype is not a complete lesson. See docs/PARTS_CURRICULUM.md for recovered original catalogue and independent coverage gate. Do not advance to other topics before all required terms and accurate targets/audio are validated.
+
+## 0.3.3 supersedes prior topic lists
+Seven approved targets and three original gull reactions. Required archive: app/src/main/assets/vela_parts_assets_v2.zip. No build before asset upload. Earlier four-term progress remains compatible because IDs are unchanged. 

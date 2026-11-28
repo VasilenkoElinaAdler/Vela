@@ -1,0 +1,27 @@
+{
+  "terms": [
+    "PROA",
+    "POPA",
+    "BABOR",
+    "ESTRIBOR",
+    "TIMÓN",
+    "FOQUE",
+    "VELA MAYOR"
+  ],
+  "assets": [
+    "babor.ogg",
+    "boat.webp",
+    "correct.ogg",
+    "estribor.ogg",
+    "finish.ogg",
+    "foque.ogg",
+    "popa.ogg",
+    "proa.ogg",
+    "reaction_error.webp",
+    "reaction_finish.webp",
+    "reaction_streak.webp",
+    "timon.ogg",
+    "ups.ogg",
+    "vela_mayor.ogg"
+  ]
+}

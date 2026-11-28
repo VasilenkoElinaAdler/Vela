@@ -62,4 +62,7 @@
     <string name="parts_practice_note">Practicar no da más estrellas por las mismas tareas.</string>
     <string name="regata_locked">Regata · Próximamente</string>
     <string name="regata_deferred">Primero, aprende las partes del barco.</string>
+    <string name="reaction_streak">¡VIENTO EN POPA!</string>
+    <string name="reaction_streak_art">Gaviota volando con un pez hacia la derecha</string>
+    <string name="reaction_finish_art">Gaviota volando con un pez hacia la izquierda</string>
 </resources>
