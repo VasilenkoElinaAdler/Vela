@@ -12,3 +12,6 @@ All game modes must follow docs/GAME_SYSTEM.md. The first-lesson prototype's 10-
 
 ## 0.3.1 supersedes prototype numbers
 Four distinct targets; initial 10 hearts, unique task stars, save on every accepted answer, resume incomplete tasks. Repeat completed lesson for practice without duplicate rewards; at zero hearts Restart or Exit. Existing card collection preserved, Regata launch locked pending new timed mode. Version code 4. No additional content.
+
+## Curriculum correction — Decision 018
+The 4-term technical prototype is not a complete lesson. See docs/PARTS_CURRICULUM.md for recovered original catalogue and independent coverage gate. Do not advance to other topics before all required terms and accurate targets/audio are validated.
