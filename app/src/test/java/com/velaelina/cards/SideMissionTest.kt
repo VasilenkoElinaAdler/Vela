@@ -17,6 +17,9 @@ class SideMissionTest {
         assertEquals(BoatPart.BOTAVARA,hit(210f,444f))
         assertEquals(BoatPart.MASTIL,hit(374f,175f))
         assertNull(sideBoatHit(20f/592f,600f/638f))
+        assertNull(sideBoatHit(80f/592f,360f/638f))
+        assertNull(sideBoatHit(140f/592f,250f/638f))
+        assertNull(sideBoatHit(270f/592f,110f/638f))
         assertNotNull(sideBoatHit(98f/592f,540f/638f))
         assertNull(hit(98f,540f))
         // Exact adjacent sails take priority over the expanded narrow-part targets.
