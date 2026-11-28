@@ -116,14 +116,18 @@ internal fun PartsLesson(onHome:()->Unit) {
                 val kind = requireNotNull(state.feedback?.reaction)
                 ReactionPanel(kind, assets.reaction(kind), Modifier.weight(1f).fillMaxWidth())
             } else if(state.done) {
-                Box(Modifier.weight(1f).fillMaxWidth(),contentAlignment=Alignment.Center) {
-                    Column(horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(14.dp)) {
-                        Text(stringResource(if(state.won) R.string.parts_completed else R.string.parts_no_lives),fontSize=34.sp,fontWeight=FontWeight.ExtraBold,color=PartsGold,textAlign=TextAlign.Center)
-                        Text(stringResource(R.string.progress_stars,state.stars),fontSize=22.sp)
-                        if(state.won) Text(stringResource(R.string.parts_practice_note),textAlign=TextAlign.Center,fontSize=16.sp)
-                        Button(onClick={assets.release();state=(if(state.won) PartsState.practice(state.progress,store.previousPartsOrder()) else PartsState.resume(store.restart(),store.previousPartsOrder())).also { store.savePartsOrder(it.questions) }},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
-                        OutlinedButton(onClick=onHome,modifier=Modifier.fillMaxWidth().heightIn(min=48.dp)){Text(stringResource(R.string.parts_exit),fontSize=20.sp)}
+                Column(Modifier.weight(1f).fillMaxWidth(),
+                    horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(8.dp)) {
+                    if(state.won) {
+                        ReactionPanel(GameReaction.COMPLETE,assets.reaction(GameReaction.COMPLETE),Modifier.weight(1f).fillMaxWidth())
+                        Text(stringResource(R.string.parts_practice_note),textAlign=TextAlign.Center,fontSize=16.sp)
+                    } else {
+                        Box(Modifier.weight(1f).fillMaxWidth(),contentAlignment=Alignment.Center) {
+                            Text(stringResource(R.string.parts_no_lives),fontSize=34.sp,fontWeight=FontWeight.ExtraBold,color=PartsGold,textAlign=TextAlign.Center)
+                        }
                     }
+                    Button(onClick={assets.release();state=(if(state.won) PartsState.practice(state.progress,store.previousPartsOrder()) else PartsState.resume(store.restart(),store.previousPartsOrder())).also { store.savePartsOrder(it.questions) }},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
+                    OutlinedButton(onClick=onHome,modifier=Modifier.fillMaxWidth().heightIn(min=48.dp)){Text(stringResource(R.string.parts_exit),fontSize=20.sp)}
                 }
             } else {
                 val word=state.current

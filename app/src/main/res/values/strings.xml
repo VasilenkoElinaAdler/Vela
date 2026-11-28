@@ -50,7 +50,7 @@
     <string name="progress_tasks">Tareas completadas: %1$d de %2$d</string>
     <string name="progress_stars">Estrellas: %1$d</string>
     <string name="parts_asset_error">No se pudieron cargar la imagen y los sonidos del nivel.</string>
-    <string name="parts_completed">¡BRAVO!</string>
+    <string name="parts_completed">¡MISIÓN CUMPLIDA!</string>
     <string name="parts_no_lives">¡Sigue practicando!</string>
     <string name="parts_practice">Practicar otra vez</string>
     <string name="parts_restart">Empezar de nuevo</string>

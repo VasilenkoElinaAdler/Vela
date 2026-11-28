@@ -40,7 +40,11 @@ class GameJourneyTest {
             tapPart(term)
             rule.mainClock.advanceTimeBy(100)
             when(i){
-                2,5 -> rule.onNodeWithTag("reaction_streak").assertExists()
+                2,5 -> {
+                    rule.onNodeWithTag("reaction_streak").assertExists()
+                    rule.onNodeWithText("¡VIENTO EN POPA!").assertExists()
+                    rule.onNodeWithContentDescription("Gaviota volando con un pez hacia la derecha").assertExists()
+                }
                 6 -> rule.onNodeWithTag("reaction_complete").assertExists()
             }
             rule.mainClock.advanceTimeBy(1800)
@@ -51,6 +55,8 @@ class GameJourneyTest {
             }
         }
         rule.onNodeWithText("Practicar otra vez").assertIsDisplayed()
+        rule.onNodeWithText("¡MISIÓN CUMPLIDA!").assertIsDisplayed()
+        rule.onNodeWithContentDescription("Gaviota volando con un pez hacia la izquierda").assertIsDisplayed()
         return order
     }
     @Test fun mainJourney() {
@@ -79,6 +85,8 @@ class GameJourneyTest {
         tapPart(wrong)
         rule.mainClock.advanceTimeBy(100)
         rule.onNodeWithTag("reaction_error").assertExists()
+        rule.onNodeWithText("¡UPS!").assertExists()
+        rule.onNodeWithContentDescription("Tres gaviotas sorprendidas").assertExists()
         rule.mainClock.advanceTimeBy(1800)
         rule.mainClock.autoAdvance=true
         rule.waitUntil(5000){progress().lives==8}
