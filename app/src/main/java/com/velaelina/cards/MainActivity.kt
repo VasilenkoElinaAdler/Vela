@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         val cards = runCatching { readCards(this) }.getOrNull()
         setContent {
-            MaterialTheme(colorScheme = darkColorScheme(primary = Mint, onPrimary = Night, secondary = Mint, background = Night, surface = Purple, onSurface = Color.White)) {
+            MaterialTheme(colorScheme = darkColorScheme(primary = Mint, onPrimary = Night, secondary = Mint, background = Night, surface = Purple, onSurface = Color.White), typography = VelaTypography) {
                 Surface(Modifier.fillMaxSize(), color = Night) {
                     if (cards.isNullOrEmpty()) Box(Modifier.fillMaxSize().safeDrawingPadding(), contentAlignment = Alignment.Center) { Text(stringResource(R.string.error)) }
                     else GameScreen(cards)
