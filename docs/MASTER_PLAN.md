@@ -50,3 +50,6 @@ One canonical card database under app/src/main/assets/cards. Stable IDs, targete
 
 ## Approved artwork / UI separation — Decision 011
 2026-11-27 — Decision 011 (owner approved): preserve the two supplied finished Regata and gulls illustrations as single, static, unaltered raster artwork layers (WebP compression permitted; no redrawing, cropping, separation, or vector substitution). Figma is for editable UI: base colors, panels, hearts, stars, buttons, progress track, small boat markers and finish flag. Compose animates the markers, handles gameplay, sound and persistence. Four boats in the illustration are static; only the two small progress markers move. Supersedes the rejected vector artwork preview under design/regata-vector-preview; do not package it. No change to the 30 cards, collection or agreed gameplay. Do not reopen visual design discussions. Current preview values remain provisional. See docs/REGATA_LAYERS.md.
+
+## Unified system gate — Decision 014
+All game modes must follow docs/GAME_SYSTEM.md. The first-lesson prototype's 10-task/10-star goal and Regata's 3-heart start are noncanonical prototype values; do not treat them as approved. New topics remain frozen. No runtime rule changes until the proposed shared lifecycle/reward rules are reviewed and integrated; do not build the first-lesson test with divergent systems.

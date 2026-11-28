@@ -6,3 +6,6 @@ Monitor package size at each build and update. Separate raw APK, artifact ZIP, A
 
 ## Regata gameplay — approved 2026-11-27
 Short turn-based offline races with a local opponent; correct answers advance, wrong answers animate a penalty loop and cost a heart, feedback explains the answer. Finish screen shows actual results and rewards. Persistent trophies, six-category 30-card collection, first correct discovers a card and a correct response in another race unlocks it permanently; errors are revisited later. Earned stars may unlock cosmetic boat variants without competitive advantage; instructional colors remain fixed. Save active race, confirmations, rewards and spending idempotently; keep stable IDs. No timed pressure, ads, purchases, login or telemetry. Keep Bubble Gum UI and Inicio; use lightweight procedural/vector assets. Numeric balancing and art are provisional. Engagement and learning tests precede expansion.
+
+## Unified system gate — Decision 014
+All game modes must follow docs/GAME_SYSTEM.md. The first-lesson prototype's 10-task/10-star goal and Regata's 3-heart start are noncanonical prototype values; do not treat them as approved. New topics remain frozen. No runtime rule changes until the proposed shared lifecycle/reward rules are reviewed and integrated; do not build the first-lesson test with divergent systems.

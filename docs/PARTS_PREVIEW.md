@@ -6,3 +6,6 @@
 - All existing 30 cards unchanged: none ask identification of the four current terms as its answer. Reassess overlap when final lesson scope is approved.
 - VelaTypography controls all UI. Test APK version 0.3.0-parts-preview (code 3); no unrelated feature changes, no R8 yet. Must verify compile, exact raster, hit regions, sound once per accepted tap, correct advances, wrong retries, no duplicate rewards, exit/retry, prior card game, size, and child engagement.
 - The binary archive must be present in repo before the intended test build. Source commit initially skips CI to avoid building without assets.
+
+## Unified system gate — Decision 014
+All game modes must follow docs/GAME_SYSTEM.md. The first-lesson prototype's 10-task/10-star goal and Regata's 3-heart start are noncanonical prototype values; do not treat them as approved. New topics remain frozen. No runtime rule changes until the proposed shared lifecycle/reward rules are reviewed and integrated; do not build the first-lesson test with divergent systems.
