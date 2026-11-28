@@ -23,5 +23,22 @@
     "timon.ogg",
     "ups.ogg",
     "vela_mayor.ogg"
-  ]
+  ],
+  "side": {
+    "terms": [
+      "FOQUE",
+      "VELA MAYOR",
+      "CASCO",
+      "ORZA",
+      "BOTAVARA",
+      "MÁSTIL"
+    ],
+    "assets": [
+      "boat_side.webp",
+      "casco.ogg",
+      "orza.ogg",
+      "botavara.ogg",
+      "mastil.ogg"
+    ]
+  }
 }

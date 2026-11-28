@@ -5,7 +5,7 @@ class PartsLessonTest {
     private val required = setOf("PROA","POPA","BABOR","ESTRIBOR","TIMÓN","FOQUE","VELA MAYOR")
     private fun hit(px:Float,py:Float)=boatHit((px-66f)/879f,(py-589f)/899f)
     @Test fun curriculumAndZonesMatchOwnerList() {
-        assertEquals(required,BoatPart.entries.map{it.word}.toSet())
+        assertEquals(required,PartsMission.TOP.parts.map{it.word}.toSet())
         assertEquals(BoatPart.PROA,hit(505f,700f)?.part)
         assertEquals(BoatPart.POPA,hit(435f,1306f)?.part)
         assertEquals(BoatPart.BABOR,hit(363f,1090f)?.part)
@@ -19,9 +19,9 @@ class PartsLessonTest {
     @Test fun allTermsCanStartAndRoundOrdersVary() {
         val orders=(0..999).map { partsQuestions(kotlin.random.Random(it)) }
         for(q in orders) {assertEquals(7,q.size);assertEquals(required,q.map{it.word}.toSet())}
-        assertEquals(BoatPart.entries.toSet(),orders.map{it.first()}.toSet())
+        assertEquals(PartsMission.TOP.parts.toSet(),orders.map{it.first()}.toSet())
         assertTrue(orders.toSet().size>500)
-        for(part in BoatPart.entries) assertTrue(orders.count{it.first()==part} in 80..220)
+        for(part in PartsMission.TOP.parts) assertTrue(orders.count{it.first()==part} in 80..220)
         for(seed in 0..99) {
             val p=partsQuestions(kotlin.random.Random(seed))
             assertNotEquals(p,partsQuestions(kotlin.random.Random(seed),previous=p))

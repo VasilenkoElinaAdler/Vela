@@ -68,4 +68,6 @@
     <string name="progress_attempt_stars">Estrellas de la misión: %1$d/%2$d</string>
     <string name="progress_permanent_stars">Estrellas conseguidas: %1$d</string>
     <string name="progress_new_stars">Nuevas estrellas: +%1$d</string>
+    <string name="next_mission">Siguiente misión →</string>
+    <string name="parts_side_diagram">Esquema de un barco visto de lado</string>
 </resources>

@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.ImageBitmap
@@ -46,13 +47,16 @@ private val PartsPink = VelaPalette.Pink
 private val PartsGold = VelaPalette.Gold
 private val PartsMint = VelaPalette.Mint
 private val PartsMuted = VelaPalette.Muted
-private val PartFiles = BoatPart.entries.map{it.audio}.toSet() + setOf("boat.webp","correct.ogg","ups.ogg","finish.ogg","reaction_error.webp","reaction_streak.webp","reaction_finish.webp")
+private val TopFiles = PartsMission.TOP.parts.map{it.audio}.toSet() + setOf("boat.webp","correct.ogg","ups.ogg","finish.ogg","reaction_error.webp","reaction_streak.webp","reaction_finish.webp")
+private val SideFiles = setOf("boat_side.webp","casco.ogg","orza.ogg","botavara.ogg","mastil.ogg")
+private val PartFiles = TopFiles + SideFiles
 private class PartAssets(context: Context) {
     private val cache = File(context.cacheDir,"vela_parts_v1").apply { mkdirs() }
     private var player: MediaPlayer? = null
     private val bitmaps = runCatching {
         val data = mutableMapOf<String,ByteArray>()
-        ZipInputStream(context.assets.open("vela_parts_assets_v2.zip")).use { zip ->
+        for(archive in listOf("vela_parts_assets_v2.zip","vela_parts_side_assets.zip")) {
+        ZipInputStream(context.assets.open(archive)).use { zip ->
             while(true) {
                 val entry = zip.nextEntry ?: break
                 if(entry.name in PartFiles) {
@@ -63,13 +67,14 @@ private class PartAssets(context: Context) {
                 zip.closeEntry()
             }
         }
+        }
         require(data.keys == PartFiles)
         data.filterKeys { it.endsWith(".ogg") }.forEach { (name, bytes) -> File(cache,name).writeBytes(bytes) }
         data.filterKeys { it.endsWith(".webp") }.mapValues { (_,bytes) ->
             requireNotNull(BitmapFactory.decodeByteArray(bytes,0,bytes.size)).asImageBitmap()
         }
     }.getOrNull().orEmpty()
-    val bitmap get() = bitmaps["boat.webp"]
+    fun bitmap(mission:PartsMission)=bitmaps[mission.art]
     fun reaction(kind:GameReaction):ImageBitmap? = bitmaps[when(kind){
         GameReaction.ERROR -> "reaction_error.webp"
         GameReaction.STREAK -> "reaction_streak.webp"
@@ -87,10 +92,20 @@ private class PartAssets(context: Context) {
 @Composable
 internal fun PartsLesson(onHome:()->Unit) {
     val context=LocalContext.current
+    val store=remember { GameProgressStore(context.applicationContext) }
+    var mission by remember { mutableStateOf(store.activeMission()) }
     val assets=remember { PartAssets(context.applicationContext) }
     DisposableEffect(assets) { onDispose { assets.release() } }
-    val store=remember { GameProgressStore(context.applicationContext) }
-    var state by remember { mutableStateOf(PartsState.resume(store.load(),store.previousPartsOrder()).also { store.savePartsOrder(it.questions) }) }
+    key(mission) {
+        MissionLesson(mission,store,assets,onHome,onNext={
+            if(store.select(PartsMission.SIDE)) { assets.release();mission=PartsMission.SIDE }
+        })
+    }
+}
+
+@Composable
+private fun MissionLesson(mission:PartsMission,store:GameProgressStore,assets:PartAssets,onHome:()->Unit,onNext:()->Unit) {
+    var state by remember { mutableStateOf(PartsState.resume(store.load(mission),store.previousPartsOrder(mission),mission).also { store.savePartsOrder(it.questions,mission) }) }
     LaunchedEffect(state.feedback) {
         if(state.feedback != null) {
             delay(if(state.feedback?.reaction!=null) ReactionRules.DISPLAY_MS else if(state.feedback?.correct==true) 520L else 650L)
@@ -106,8 +121,8 @@ internal fun PartsLesson(onHome:()->Unit) {
         }
         Column(Modifier.weight(1f).fillMaxWidth().border(3.dp,PartsPink).padding(horizontal=12.dp,vertical=10.dp),
             horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(5.dp)) {
-            ProgressHeader(state.progress,PARTS_TASK_IDS)
-            val bitmap=assets.bitmap
+            ProgressHeader(state.progress,mission.required)
+            val bitmap=assets.bitmap(mission)
             if(bitmap==null) {
                 Box(Modifier.weight(1f).fillMaxWidth(),contentAlignment=Alignment.Center) {
                     Text(stringResource(R.string.parts_asset_error),textAlign=TextAlign.Center)
@@ -130,7 +145,12 @@ internal fun PartsLesson(onHome:()->Unit) {
                             }
                         }
                     }
-                    Button(onClick={assets.release();state=PartsState.practice(state.progress,store.previousPartsOrder()).also { store.save(it.progress);store.savePartsOrder(it.questions) }},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
+                    if(state.won && mission==PartsMission.TOP) {
+                        Button(onClick=onNext,modifier=Modifier.fillMaxWidth().heightIn(min=54.dp).testTag("next_mission")) {
+                            Text(stringResource(R.string.next_mission),fontSize=22.sp)
+                        }
+                    }
+                    Button(onClick={assets.release();state=PartsState.practice(state.progress,store.previousPartsOrder(mission),mission).also { store.save(it.progress,mission);store.savePartsOrder(it.questions,mission) }},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
                     OutlinedButton(onClick=onHome,modifier=Modifier.fillMaxWidth().heightIn(min=48.dp)){Text(stringResource(R.string.parts_exit),fontSize=20.sp)}
                 }
             } else {
@@ -146,21 +166,22 @@ internal fun PartsLesson(onHome:()->Unit) {
                     color=if(feedback?.correct==true)PartsGold else Color.White,fontSize=15.sp,
                     fontWeight=FontWeight.Medium,textAlign=TextAlign.Center)
                 BoxWithConstraints(Modifier.weight(1f).fillMaxWidth(),contentAlignment=Alignment.Center) {
-                    val ratio=879f/899f
+                    val ratio=mission.aspectRatio
                     val width=minOf(maxWidth,maxHeight*ratio)
                     Box(Modifier.width(width).aspectRatio(ratio).clip(RoundedCornerShape(18.dp))
+                        .then(if(mission==PartsMission.SIDE) Modifier.background(Brush.horizontalGradient(listOf(Color(0xFF9415C6),VelaPalette.Purple))).border(2.dp,VelaPalette.Muted,RoundedCornerShape(18.dp)) else Modifier)
                         .testTag("parts_field").pointerInput(state.index,state.lives,state.feedback){
                             detectTapGestures{ p ->
                                 val x=p.x/size.width; val y=p.y/size.height
-                                val next=state.answer(boatHit(x,y),x,y)
+                                val next=state.answer(mission.hit(x,y),x,y)
                                 if(next!=state) {
-                                    store.save(next.progress)
+                                    store.save(next.progress,mission)
                                     state=next
                                     assets.play(when { next.feedback?.reaction==GameReaction.COMPLETE -> "finish.ogg"; next.feedback?.correct==true -> "correct.ogg"; else -> "ups.ogg" })
                                 }
                             }
                         }) {
-                        Image(bitmap,stringResource(R.string.parts_diagram),Modifier.fillMaxSize(),contentScale=ContentScale.FillBounds)
+                        Image(bitmap,stringResource(if(mission==PartsMission.TOP)R.string.parts_diagram else R.string.parts_side_diagram),Modifier.fillMaxSize(),contentScale=ContentScale.Fit)
                         if(feedback!=null) Canvas(Modifier.fillMaxSize()) {
                             val center=Offset(feedback.x*size.width,feedback.y*size.height)
                             val color=if(feedback.correct)PartsGold else PartsPink

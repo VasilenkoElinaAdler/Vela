@@ -37,3 +37,6 @@ Decision 019 correction: final completion panel remains visible with ¡MISIÓN C
 
 ## Decision 020 — approved mission economy (supersedes prior ten-heart and immediate-award rules)
 Three hearts per new mission attempt, provisional current-task stars, atomic permanent awards on successful completion, zero current stars on loss, preserve all earlier permanent achievements, no duplicate awards on replay. Home shows permanent count; mission header shows attempt count. Store schema v2 separates lives, attempt IDs, earned IDs and newly awarded IDs. Qualification uses permanent awards only. Mission replay starts fresh; resume preserves attempt. No changes to competition rules or content. See Decisions and QA_GATE.
+
+## Decision 021
+Use one PartsMission catalogue and shared engine for two image-based missions. Separate per-mission attempts and one monotonic permanent star ledger. TOP seven tasks unlock SIDE six tasks; distinct view-specific IDs, thirteen total. No change to rules or locked competition. See PARTS_CURRICULUM.md.

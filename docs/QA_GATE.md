@@ -14,3 +14,6 @@ Independent catalogue and asset validation, all seven hit targets, randomness, r
 
 ## Decision 020 regression gate
 Check 3 initial hearts, provisional stars with zero permanent credit before success, third error clears attempt stars, full success awards exactly seven once, replay starts 3/0, successful replay earns +0, intentional failure after prior success displays zero attempt stars while home shows seven earned. Test persistence after exit/recreation, retry and legacy full vs incomplete migration. Keep all existing tests and APK upload gate.
+
+## Decision 021
+Independent validation of both catalogues and 19 assets; side zones and thin-part tolerance, separate task IDs, correct order randomization, six-star completion, thirteen permanent stars, replay, unlock and persistent resume on Android. APK gate unchanged.

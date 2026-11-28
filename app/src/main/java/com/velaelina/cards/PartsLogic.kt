@@ -4,7 +4,9 @@ internal enum class BoatPart(val word: String, val audio: String) {
     PROA("PROA","proa.ogg"), POPA("POPA","popa.ogg"),
     BABOR("BABOR","babor.ogg"), ESTRIBOR("ESTRIBOR","estribor.ogg"),
     TIMON("TIMÓN","timon.ogg"), FOQUE("FOQUE","foque.ogg"),
-    VELA_MAYOR("VELA MAYOR","vela_mayor.ogg");
+    VELA_MAYOR("VELA MAYOR","vela_mayor.ogg"),
+    CASCO("CASCO","casco.ogg"), ORZA("ORZA","orza.ogg"),
+    BOTAVARA("BOTAVARA","botavara.ogg"), MASTIL("MÁSTIL","mastil.ogg");
     val taskId: String get() = "parts." + name.lowercase(java.util.Locale.ROOT)
 }
 internal data class BoatHit(val part: BoatPart?)
@@ -43,10 +45,19 @@ internal fun boatHit(x: Float, y: Float): BoatHit? {
     return null
 }
 
-internal val PARTS_TASK_IDS = BoatPart.entries.map { it.taskId }.toSet()
+/** The same lesson engine runs a new mission by changing only this catalogue. */
+internal enum class PartsMission(val storageKey:String, val art:String, val aspectRatio:Float, val parts:List<BoatPart>) {
+    TOP("top","boat.webp",879f/899f,listOf(BoatPart.PROA,BoatPart.POPA,BoatPart.BABOR,BoatPart.ESTRIBOR,BoatPart.TIMON,BoatPart.FOQUE,BoatPart.VELA_MAYOR)),
+    SIDE("side","boat_side.webp",960f/1247f,listOf(BoatPart.FOQUE,BoatPart.VELA_MAYOR,BoatPart.CASCO,BoatPart.ORZA,BoatPart.BOTAVARA,BoatPart.MASTIL));
+
+    fun taskId(part:BoatPart):String = if(this==TOP) part.taskId else "parts.side."+part.name.lowercase(java.util.Locale.ROOT)
+    val required:Set<String> get() = parts.map{taskId(it)}.toSet()
+    fun hit(x:Float,y:Float):BoatHit? = if(this==TOP) boatHit(x,y) else sideBoatHit(x,y)
+}
+internal val PARTS_TASK_IDS get() = PartsMission.TOP.required
 internal fun partsQuestions(
     random: kotlin.random.Random = kotlin.random.Random.Default,
-    candidates: List<BoatPart> = BoatPart.entries.toList(),
+    candidates: List<BoatPart> = PartsMission.TOP.parts,
     previous: List<BoatPart> = emptyList()
 ): List<BoatPart> {
     var shuffled = candidates.shuffled(random)
@@ -67,19 +78,20 @@ internal data class PartsState(
     val progress: GameProgress = GameProgress(),
     val index: Int = 0,
     val feedback: PartsFeedback? = null,
-    val series: AnswerSeries = AnswerSeries()
+    val series: AnswerSeries = AnswerSeries(),
+    val mission:PartsMission = PartsMission.TOP
 ) {
     val current get() = questions.getOrNull(index)
     val lives get() = progress.lives
     val stars get() = progress.stars
     val done get() = feedback == null && (progress.exhausted || current == null)
-    val won get() = done && !progress.exhausted && current == null && progress.mastered(PARTS_TASK_IDS)
+    val won get() = done && !progress.exhausted && current == null && progress.mastered(mission.required)
     fun answer(hit: BoatHit?, x: Float, y: Float): PartsState {
         val task = current ?: return this
         if (hit == null || done || feedback != null) return this
         val correct = hit.part == task
-        val nextProgress = GameRules.answer(progress,task.taskId,correct,PARTS_TASK_IDS)
-        val completed = correct && index == questions.lastIndex && nextProgress.mastered(PARTS_TASK_IDS)
+        val nextProgress = GameRules.answer(progress,mission.taskId(task),correct,mission.required)
+        val completed = correct && index == questions.lastIndex && nextProgress.mastered(mission.required)
         val (nextSeries,reaction) = series.accept(correct,completed)
         return copy(progress = nextProgress,series=nextSeries,
             feedback = PartsFeedback(correct,x,y,reaction))
@@ -89,9 +101,9 @@ internal data class PartsState(
         return copy(index = index + if(f.correct) 1 else 0, feedback = null)
     }
     companion object {
-        fun resume(progress: GameProgress, previous: List<BoatPart> = emptyList()): PartsState =
-            PartsState(questions = if(progress.exhausted) emptyList() else partsQuestions(candidates=BoatPart.entries.filterNot { it.taskId in progress.completed },previous=previous),progress=progress)
-        fun practice(progress: GameProgress, previous: List<BoatPart> = emptyList()): PartsState =
-            PartsState(questions=partsQuestions(previous=previous),progress=GameRules.newAttempt(progress))
+        fun resume(progress:GameProgress,previous:List<BoatPart> = emptyList(),mission:PartsMission=PartsMission.TOP):PartsState =
+            PartsState(questions=if(progress.exhausted) emptyList() else partsQuestions(candidates=mission.parts.filterNot { mission.taskId(it) in progress.completed },previous=previous),progress=progress,mission=mission)
+        fun practice(progress:GameProgress,previous:List<BoatPart> = emptyList(),mission:PartsMission=PartsMission.TOP):PartsState =
+            PartsState(questions=partsQuestions(candidates=mission.parts,previous=previous),progress=GameRules.newAttempt(progress),mission=mission)
     }
 }

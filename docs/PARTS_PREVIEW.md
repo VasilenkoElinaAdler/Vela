@@ -18,3 +18,6 @@ The 4-term technical prototype is not a complete lesson. See docs/PARTS_CURRICUL
 
 ## 0.3.3 supersedes prior topic lists
 Seven approved targets and three original gull reactions. Required archive: app/src/main/assets/vela_parts_assets_v2.zip. No build before asset upload. Earlier four-term progress remains compatible because IDs are unchanged. 
+
+## 0.3.5 — second mission
+Side-view original art and four new offline pronunciations in app/src/main/assets/vela_parts_side_assets.zip. Reuse shared original feedback/audio and rules. First successful TOP unlocks SIDE, six tasks, 13 permanent stars total. No race redesign. Build only after both archives present.

@@ -16,6 +16,22 @@ class GameJourneyTest {
         rule.onNodeWithTag("parts_word").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].first().text
 
     private fun tapPart(word:String) {
+        val side=GameProgressStore(rule.activity.applicationContext).activeMission()==PartsMission.SIDE
+        if(side) {
+            val (x,y)=when(word){
+                "FOQUE" -> 930f to 760f
+                "VELA MAYOR" -> 500f to 650f
+                "CASCO" -> 650f to 1020f
+                "ORZA" -> 710f to 1150f
+                "BOTAVARA" -> 420f to 883f
+                "MÁSTIL" -> 780f to 350f
+                else -> error("Unexpected side term: $word")
+            }
+            rule.onNodeWithTag("parts_field").performTouchInput {
+                click(Offset((x*1261f/1229f-180f)/960f*center.x*2f,y/1215f*center.y*2f))
+            }
+            rule.waitForIdle();return
+        }
         val (px,py)=when(word){
             "PROA" -> 505f to 700f
             "POPA" -> 435f to 1306f
@@ -31,21 +47,21 @@ class GameJourneyTest {
         }
         rule.waitForIdle()
     }
-    private fun completeRound(): List<String> {
+    private fun completeRound(count:Int=7): List<String> {
         val order=mutableListOf<String>()
-        repeat(7) { i ->
+        repeat(count) { i ->
             val term=word()
             order += term
             rule.mainClock.autoAdvance=false
             tapPart(term)
             rule.mainClock.advanceTimeBy(100)
-            when(i){
-                2,5 -> {
+            when {
+                i==count-1 -> rule.onNodeWithTag("reaction_complete").assertExists()
+                (i+1)%3==0 -> {
                     rule.onNodeWithTag("reaction_streak").assertExists()
                     rule.onNodeWithText("¡VIENTO EN POPA!").assertExists()
                     rule.onNodeWithContentDescription("Gaviota volando con un pez hacia la derecha").assertExists()
                 }
-                6 -> rule.onNodeWithTag("reaction_complete").assertExists()
             }
             rule.mainClock.advanceTimeBy(1800)
             rule.mainClock.autoAdvance=true
@@ -139,5 +155,30 @@ class GameJourneyTest {
         rule.onNodeWithText("Empezar de nuevo").performClick()
         assertEquals(3,progress().lives);assertEquals(0,progress().stars)
         assertEquals(7,progress().permanentStars)
+        // The original journey above already tested retry, failure, replay and restart.
+        completeRound()
+        rule.onNodeWithTag("next_mission").assertIsDisplayed().performClick()
+        rule.onNodeWithContentDescription("Esquema de un barco visto de lado").assertIsDisplayed()
+        assertEquals(PartsMission.SIDE,GameProgressStore(rule.activity.applicationContext).activeMission())
+        assertEquals(3,progress().lives);assertEquals(0,progress().stars);assertEquals(7,progress().permanentStars)
+        val firstSide=word()
+        tapPart(firstSide);rule.mainClock.advanceTimeBy(800)
+        assertEquals(1,progress().stars);assertEquals(7,progress().permanentStars)
+        rule.onNodeWithText("← Inicio").performClick()
+        rule.activityRule.scenario.recreate();rule.waitForIdle()
+        rule.onNodeWithText("Jugar").performClick()
+        assertEquals(1,progress().stars);assertNotEquals(firstSide,word())
+        // Complete the remaining five tasks, preserving the first provisional star.
+        repeat(5) { tapPart(word());rule.mainClock.advanceTimeBy(1800);rule.waitForIdle() }
+        rule.onNodeWithText("¡MISIÓN CUMPLIDA!").assertIsDisplayed()
+        rule.onNodeWithText("Nuevas estrellas: +6").assertIsDisplayed()
+        assertEquals(13,progress().permanentStars)
+        rule.onNodeWithTag("next_mission").assertDoesNotExist()
+        rule.onNodeWithText("Practicar otra vez").performClick()
+        completeRound(6)
+        assertEquals(13,progress().permanentStars)
+        rule.onNodeWithText("Nuevas estrellas: +0").assertIsDisplayed()
+        rule.onNodeWithText("← Inicio").performClick()
+        rule.onNodeWithText("Estrellas conseguidas: 13").assertExists()
     }
 }
