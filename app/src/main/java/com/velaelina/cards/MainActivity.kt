@@ -45,12 +45,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.json.JSONArray
 
-private val Night = Color(0xFF150820)
-private val Purple = Color(0xFF3B1268)
-private val Lilac = Color(0xFFE2C9FF)
-private val Gold = Color(0xFFFFFF00)
-private val Pink = Color(0xFFFF20A6)
-private val Mint = Color(0xFF00E5F5)
+private val Night = VelaPalette.Night
+private val Purple = VelaPalette.Purple
+private val Lilac = VelaPalette.Lilac
+private val Gold = VelaPalette.Gold
+private val Pink = VelaPalette.Pink
+private val Mint = VelaPalette.Mint
 private val categories = linkedMapOf("equipment" to R.string.category_equipment, "maneuver" to R.string.category_maneuver, "course" to R.string.category_course, "physics" to R.string.category_physics, "practice" to R.string.category_practice, "rules" to R.string.category_rules)
 
 class MainActivity : ComponentActivity() {
@@ -202,18 +202,14 @@ private fun GameScreen(cards:List<CardData>) {
             when(screen){
                 "home"->{
                     Text(stringResource(R.string.title),fontSize=30.sp,fontWeight=FontWeight.ExtraBold,color=Gold)
-                    Button(onClick={screen="parts"},modifier=Modifier.fillMaxWidth().heightIn(min=64.dp),shape=RoundedCornerShape(18.dp)){Text("Partes del barco",fontSize=24.sp,fontWeight=FontWeight.Bold)}
+                    Button(onClick={screen="parts"},modifier=Modifier.fillMaxWidth().heightIn(min=64.dp),shape=RoundedCornerShape(18.dp)){Text(stringResource(R.string.parts_title),fontSize=24.sp,fontWeight=FontWeight.Bold)}
                     Artwork(art["regata.webp"],stringResource(R.string.regata_art),800f/516f)
                     Text(stringResource(R.string.draft),color=Lilac,fontSize=13.sp)
-                    val s=session
-                    if(s!=null&&s.race.outcome==null) {
-                        Button(onClick={screen="play"},modifier=Modifier.fillMaxWidth().heightIn(min=56.dp)){Text(stringResource(R.string.resume_race),fontSize=19.sp)}
-                    }else{
-                        Button(onClick={start()},modifier=Modifier.fillMaxWidth().heightIn(min=56.dp)){Text(stringResource(R.string.play_race),fontSize=19.sp)}
-                    }
-                    if(s?.race?.outcome!=null)OutlinedButton(onClick={screen="result"},modifier=Modifier.fillMaxWidth()){Text(stringResource(R.string.finish))}
+                    Button(onClick={},enabled=false,modifier=Modifier.fillMaxWidth().heightIn(min=56.dp)){Text(stringResource(R.string.regata_locked),fontSize=19.sp)}
+                    Text(stringResource(R.string.regata_deferred),color=Lilac,fontSize=14.sp)
                     OutlinedButton(onClick={screen="album"},modifier=Modifier.fillMaxWidth().heightIn(min=52.dp)){Text(stringResource(R.string.collection,knowledge.collected.size,cards.size),fontSize=18.sp)}
-                    Text(stringResource(R.string.trophies_stars,wins,totalStars),color=Gold,fontWeight=FontWeight.Bold)
+                    val training=GameProgressStore(context).load()
+                    ProgressHeader(training,PARTS_TASK_IDS)
                 }
                 "play"->session?.let{s->
                     val r=s.race;val c=s.deck[r.index]

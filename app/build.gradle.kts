@@ -10,8 +10,8 @@ android {
         applicationId = "com.velaelina.cards"
         minSdk = 24
         targetSdk = 36
-        versionCode = 3
-        versionName = "0.3.0-parts-preview"
+        versionCode = 4
+        versionName = "0.3.1-parts-preview"
     }
     buildTypes {
         debug { applicationIdSuffix = ".debug"; versionNameSuffix = "-debug" }

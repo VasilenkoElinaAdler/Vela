@@ -45,4 +45,19 @@
     <string name="back_album">Volver a la colección</string>
     <string name="discovered">Descubierta</string>
     <string name="locked">Por descubrir</string>
+    <string name="parts_title">Partes del barco</string>
+    <string name="progress_lives">Vidas: %1$d de %2$d</string>
+    <string name="progress_tasks">Tareas completadas: %1$d de %2$d</string>
+    <string name="progress_stars">Estrellas: %1$d</string>
+    <string name="parts_asset_error">No se pudieron cargar la imagen y los sonidos del nivel.</string>
+    <string name="parts_completed">¡BRAVO!</string>
+    <string name="parts_no_lives">¡Sigue practicando!</string>
+    <string name="parts_practice">Practicar otra vez</string>
+    <string name="parts_restart">Empezar de nuevo</string>
+    <string name="parts_exit">Salir</string>
+    <string name="parts_listen">▶ Escuchar</string>
+    <string name="parts_instruction">Toca la parte correcta del barco.</string>
+    <string name="parts_diagram">Esquema de un barco visto desde arriba</string>
+    <string name="regata_locked">Regata · Próximamente</string>
+    <string name="regata_deferred">Primero, aprende las partes del barco.</string>
 </resources>

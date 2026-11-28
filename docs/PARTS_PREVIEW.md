@@ -9,3 +9,6 @@
 
 ## Unified system gate — Decision 014
 All game modes must follow docs/GAME_SYSTEM.md. The first-lesson prototype's 10-task/10-star goal and Regata's 3-heart start are noncanonical prototype values; do not treat them as approved. New topics remain frozen. No runtime rule changes until the proposed shared lifecycle/reward rules are reviewed and integrated; do not build the first-lesson test with divergent systems.
+
+## 0.3.1 supersedes prototype numbers
+Four distinct targets; initial 10 hearts, unique task stars, save on every accepted answer, resume incomplete tasks. Repeat completed lesson for practice without duplicate rewards; at zero hearts Restart or Exit. Existing card collection preserved, Regata launch locked pending new timed mode. Version code 4. No additional content.

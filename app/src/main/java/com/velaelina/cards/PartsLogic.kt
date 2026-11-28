@@ -1,10 +1,9 @@
 package com.velaelina.cards
 
-internal const val PARTS_LIVES = 10
-internal const val PARTS_ROUNDS = 10
 internal enum class BoatPart(val word: String, val audio: String) {
     PROA("PROA","proa.ogg"), POPA("POPA","popa.ogg"),
-    BABOR("BABOR","babor.ogg"), ESTRIBOR("ESTRIBOR","estribor.ogg")
+    BABOR("BABOR","babor.ogg"), ESTRIBOR("ESTRIBOR","estribor.ogg");
+    val taskId: String get() = "parts." + name.lowercase(java.util.Locale.ROOT)
 }
 internal data class BoatHit(val part: BoatPart?)
 internal data class PartsFeedback(val correct: Boolean, val x: Float, val y: Float)
@@ -29,36 +28,35 @@ internal fun boatHit(x: Float, y: Float): BoatHit? {
     return null
 }
 
-internal fun partsQuestions(random: kotlin.random.Random = kotlin.random.Random.Default): List<BoatPart> {
-    val all = BoatPart.entries.toList()
-    val result = mutableListOf(BoatPart.PROA)
-    result += all.filter { it != BoatPart.PROA }.shuffled(random)
-    val second = all.shuffled(random).toMutableList()
-    if (second.first() == result.last()) {
-        val other = second.indexOfFirst { it != result.last() }
-        val tmp = second[0]; second[0] = second[other]; second[other] = tmp
-    }
-    result += second
-    repeat(2) { result += all.filter { it != result.last() }.random(random) }
-    return result
-}
+internal val PARTS_TASK_IDS = BoatPart.entries.map { it.taskId }.toSet()
+internal fun partsQuestions(random: kotlin.random.Random = kotlin.random.Random.Default): List<BoatPart> =
+    listOf(BoatPart.PROA) + BoatPart.entries.filter { it != BoatPart.PROA }.shuffled(random)
+
 internal data class PartsState(
     val questions: List<BoatPart> = partsQuestions(),
-    val index: Int = 0, val lives: Int = PARTS_LIVES,
-    val stars: Int = 0, val feedback: PartsFeedback? = null
+    val progress: GameProgress = GameProgress(),
+    val index: Int = 0,
+    val feedback: PartsFeedback? = null
 ) {
     val current get() = questions.getOrNull(index)
-    val done get() = feedback == null && (lives == 0 || current == null)
-    val won get() = done && stars == questions.size
+    val lives get() = progress.lives
+    val stars get() = progress.stars
+    val done get() = feedback == null && (progress.exhausted || current == null)
+    val won get() = done && !progress.exhausted && current == null && progress.mastered(PARTS_TASK_IDS)
     fun answer(hit: BoatHit?, x: Float, y: Float): PartsState {
-        if (hit == null || done || feedback != null || current == null) return this
-        val correct = hit.part == current
-        return copy(lives = lives - if (correct) 0 else 1,
-            stars = stars + if (correct) 1 else 0,
-            feedback = PartsFeedback(correct, x, y))
+        val task = current ?: return this
+        if (hit == null || done || feedback != null) return this
+        val correct = hit.part == task
+        return copy(progress = GameRules.answer(progress,task.taskId,correct),
+            feedback = PartsFeedback(correct,x,y))
     }
     fun advance(): PartsState {
         val f = feedback ?: return this
         return copy(index = index + if(f.correct) 1 else 0, feedback = null)
+    }
+    companion object {
+        fun resume(progress: GameProgress): PartsState =
+            PartsState(questions = partsQuestions().filterNot { it.taskId in progress.completed },progress=progress)
+        fun practice(progress: GameProgress): PartsState = PartsState(progress=progress)
     }
 }
