@@ -13,8 +13,27 @@ class PartsLessonTest {
     @Test fun firstRoundCoversEachPartOnce() {
         repeat(30) {
             val q=partsQuestions(kotlin.random.Random(it))
-            assertEquals(BoatPart.entries.size,q.size); assertEquals(BoatPart.PROA,q.first())
+            assertEquals(BoatPart.entries.size,q.size)
             assertEquals(BoatPart.entries.toSet(),q.toSet())
+        }
+    }
+    @Test fun allTermsCanStartAndRoundOrdersVary() {
+        val orders=(0..999).map { partsQuestions(kotlin.random.Random(it)) }
+        assertEquals(BoatPart.entries.toSet(),orders.map{it.first()}.toSet())
+        assertEquals(24,orders.toSet().size)
+        for(part in BoatPart.entries) assertTrue(orders.count{it.first()==part} in 150..350)
+        for(seed in 0..99) {
+            val p=partsQuestions(kotlin.random.Random(seed))
+            assertNotEquals(p,partsQuestions(kotlin.random.Random(seed),previous=p))
+        }
+    }
+    @Test fun repeatedPracticeCannotFarmStars() {
+        var p=GameProgress()
+        repeat(30) {
+            var s=PartsState.practice(p)
+            while(!s.done) s=s.answer(BoatHit(s.current),.5f,.5f).advance()
+            p=s.progress
+            assertEquals(PARTS_TASK_IDS.size,p.stars)
         }
     }
     @Test fun correctIsAwardedOnceAndResumesWithoutDuplicateRewards() {

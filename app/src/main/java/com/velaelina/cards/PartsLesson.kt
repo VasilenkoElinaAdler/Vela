@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -81,7 +82,7 @@ internal fun PartsLesson(onHome:()->Unit) {
     val assets=remember { PartAssets(context.applicationContext) }
     DisposableEffect(assets) { onDispose { assets.release() } }
     val store=remember { GameProgressStore(context.applicationContext) }
-    var state by remember { mutableStateOf(PartsState.resume(store.load())) }
+    var state by remember { mutableStateOf(PartsState.resume(store.load(),store.previousPartsOrder()).also { store.savePartsOrder(it.questions) }) }
     var celebrated by remember { mutableStateOf(false) }
     LaunchedEffect(state.feedback) {
         if(state.feedback != null) {
@@ -110,13 +111,14 @@ internal fun PartsLesson(onHome:()->Unit) {
                     Column(horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(14.dp)) {
                         Text(stringResource(if(state.won) R.string.parts_completed else R.string.parts_no_lives),fontSize=34.sp,fontWeight=FontWeight.ExtraBold,color=PartsGold,textAlign=TextAlign.Center)
                         Text(stringResource(R.string.progress_stars,state.stars),fontSize=22.sp)
-                        Button(onClick={assets.release();celebrated=false;state=if(state.won) PartsState.practice(state.progress) else PartsState.resume(store.restart())},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
+                        if(state.won) Text(stringResource(R.string.parts_practice_note),textAlign=TextAlign.Center,fontSize=16.sp)
+                        Button(onClick={assets.release();celebrated=false;state=(if(state.won) PartsState.practice(state.progress,store.previousPartsOrder()) else PartsState.resume(store.restart(),store.previousPartsOrder())).also { store.savePartsOrder(it.questions) }},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
                         OutlinedButton(onClick=onHome,modifier=Modifier.fillMaxWidth().heightIn(min=48.dp)){Text(stringResource(R.string.parts_exit),fontSize=20.sp)}
                     }
                 }
             } else {
                 val word=state.current
-                Text(word?.word.orEmpty(),color=PartsGold,fontSize=34.sp,fontWeight=FontWeight.ExtraBold,textAlign=TextAlign.Center)
+                Text(word?.word.orEmpty(),modifier=Modifier.testTag("parts_word"),color=PartsGold,fontSize=34.sp,fontWeight=FontWeight.ExtraBold,textAlign=TextAlign.Center)
                 Button(onClick={word?.let{assets.play(it.audio)}},enabled=state.feedback==null,
                     modifier=Modifier.heightIn(min=49.dp).border(2.dp,Color.White,RoundedCornerShape(18.dp)),
                     shape=RoundedCornerShape(18.dp),colors=ButtonDefaults.buttonColors(containerColor=PartsMint,contentColor=PartsNight)){
@@ -130,7 +132,7 @@ internal fun PartsLesson(onHome:()->Unit) {
                     val ratio=879f/899f
                     val width=minOf(maxWidth,maxHeight*ratio)
                     Box(Modifier.width(width).aspectRatio(ratio).clip(RoundedCornerShape(18.dp))
-                        .pointerInput(state.index,state.lives,state.feedback){
+                        .testTag("parts_field").pointerInput(state.index,state.lives,state.feedback){
                             detectTapGestures{ p ->
                                 val x=p.x/size.width; val y=p.y/size.height
                                 val next=state.answer(boatHit(x,y),x,y)

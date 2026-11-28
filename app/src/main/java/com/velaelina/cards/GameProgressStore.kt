@@ -14,5 +14,14 @@ internal class GameProgressStore(context: Context) {
         prefs.edit().putInt("training_lives_v1", progress.lives)
             .putStringSet("training_tasks_v1", progress.completed.toSet()).apply()
     }
+    // Store round ordering independently of earned stars; a new practice round
+    // must not accidentally reproduce the previous full order.
+    fun previousPartsOrder(): List<BoatPart> =
+        prefs.getString("parts_order_v1", "").orEmpty().split(",").mapNotNull { name ->
+            BoatPart.entries.firstOrNull { it.name == name }
+        }
+    fun savePartsOrder(order: List<BoatPart>) {
+        if(order.isNotEmpty()) prefs.edit().putString("parts_order_v1",order.joinToString(","){it.name}).apply()
+    }
     fun restart(): GameProgress = GameProgress().also { save(it) }
 }

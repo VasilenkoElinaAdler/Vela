@@ -39,6 +39,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -201,12 +203,13 @@ private fun GameScreen(cards:List<CardData>) {
         Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(scroll),verticalArrangement=Arrangement.spacedBy(10.dp)){
             when(screen){
                 "home"->{
-                    Text(stringResource(R.string.title),fontSize=30.sp,fontWeight=FontWeight.ExtraBold,color=Gold)
-                    Button(onClick={screen="parts"},modifier=Modifier.fillMaxWidth().heightIn(min=64.dp),shape=RoundedCornerShape(18.dp)){Text(stringResource(R.string.parts_title),fontSize=24.sp,fontWeight=FontWeight.Bold)}
-                    Artwork(art["regata.webp"],stringResource(R.string.regata_art),800f/516f)
+                    Text(stringResource(R.string.title),fontSize=30.sp,fontWeight=FontWeight.ExtraBold,color=Gold,modifier=Modifier.fillMaxWidth().testTag("home_title"),textAlign=TextAlign.Center)
+                    Box(Modifier.fillMaxWidth().testTag("home_art")) {
+                        Artwork(art["regata.webp"],stringResource(R.string.regata_art),800f/516f)
+                    }
+                    Button(onClick={screen="parts"},modifier=Modifier.fillMaxWidth(.86f).align(Alignment.CenterHorizontally).heightIn(min=68.dp).testTag("home_play"),shape=RoundedCornerShape(22.dp),colors=ButtonDefaults.buttonColors(containerColor=Pink,contentColor=Night)){Text(stringResource(R.string.home_play),fontSize=30.sp,fontWeight=FontWeight.ExtraBold)}
+                    Button(onClick={},enabled=false,modifier=Modifier.fillMaxWidth(.86f).align(Alignment.CenterHorizontally).heightIn(min=56.dp).testTag("home_regata")){Text(stringResource(R.string.regata_locked),fontSize=20.sp,fontWeight=FontWeight.Bold)}
                     Text(stringResource(R.string.draft),color=Lilac,fontSize=13.sp)
-                    Button(onClick={},enabled=false,modifier=Modifier.fillMaxWidth().heightIn(min=56.dp)){Text(stringResource(R.string.regata_locked),fontSize=19.sp)}
-                    Text(stringResource(R.string.regata_deferred),color=Lilac,fontSize=14.sp)
                     OutlinedButton(onClick={screen="album"},modifier=Modifier.fillMaxWidth().heightIn(min=52.dp)){Text(stringResource(R.string.collection,knowledge.collected.size,cards.size),fontSize=18.sp)}
                     val training=GameProgressStore(context).load()
                     ProgressHeader(training,PARTS_TASK_IDS)

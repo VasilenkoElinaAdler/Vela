@@ -29,8 +29,17 @@ internal fun boatHit(x: Float, y: Float): BoatHit? {
 }
 
 internal val PARTS_TASK_IDS = BoatPart.entries.map { it.taskId }.toSet()
-internal fun partsQuestions(random: kotlin.random.Random = kotlin.random.Random.Default): List<BoatPart> =
-    listOf(BoatPart.PROA) + BoatPart.entries.filter { it != BoatPart.PROA }.shuffled(random)
+internal fun partsQuestions(
+    random: kotlin.random.Random = kotlin.random.Random.Default,
+    candidates: List<BoatPart> = BoatPart.entries.toList(),
+    previous: List<BoatPart> = emptyList()
+): List<BoatPart> {
+    val shuffled = candidates.shuffled(random)
+    // Every term can appear first. Avoid repeating an identical sequence.
+    // Rotate only in the rare case of an identical previous sequence.
+    return if (shuffled.size > 1 && shuffled == previous)
+        shuffled.drop(1) + shuffled.first() else shuffled
+}
 
 internal data class PartsState(
     val questions: List<BoatPart> = partsQuestions(),
@@ -55,8 +64,9 @@ internal data class PartsState(
         return copy(index = index + if(f.correct) 1 else 0, feedback = null)
     }
     companion object {
-        fun resume(progress: GameProgress): PartsState =
-            PartsState(questions = partsQuestions().filterNot { it.taskId in progress.completed },progress=progress)
-        fun practice(progress: GameProgress): PartsState = PartsState(progress=progress)
+        fun resume(progress: GameProgress, previous: List<BoatPart> = emptyList()): PartsState =
+            PartsState(questions = partsQuestions(candidates=BoatPart.entries.filterNot { it.taskId in progress.completed },previous=previous),progress=progress)
+        fun practice(progress: GameProgress, previous: List<BoatPart> = emptyList()): PartsState =
+            PartsState(questions=partsQuestions(previous=previous),progress=progress)
     }
 }

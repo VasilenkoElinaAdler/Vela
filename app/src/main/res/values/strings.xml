@@ -58,6 +58,8 @@
     <string name="parts_listen">▶ Escuchar</string>
     <string name="parts_instruction">Toca la parte correcta del barco.</string>
     <string name="parts_diagram">Esquema de un barco visto desde arriba</string>
+    <string name="home_play">Jugar</string>
+    <string name="parts_practice_note">Practicar no da más estrellas por las mismas tareas.</string>
     <string name="regata_locked">Regata · Próximamente</string>
     <string name="regata_deferred">Primero, aprende las partes del barco.</string>
 </resources>

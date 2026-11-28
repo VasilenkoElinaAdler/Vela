@@ -26,3 +26,6 @@ For the next test APK, implement only the common progress rules needed by the fi
 
 ## Implementation milestone 0.3.1 (Decision 016)
 Shared training engine, versioned storage, stable completed-task IDs, progress header and palette are implemented. The first test uses four distinct parts (4 possible task stars, not a global cap). Test balance: 10 hearts, one lost per error; repeat practice does not duplicate stars. Regata entry locked while old code/data remain intact, pending unified timed-regatta integration. The full qualification/cup/passport system is documented, not implemented. Future changes must reuse shared rules, add stable task IDs and tests, preserve stored data, and explicitly approve exceptions. Release signing/AAB and Google Play policy/closed testing remain separate publication requirements.
+
+## 0.3.2 quality gate (Decision 017)
+See docs/QA_GATE.md. Home hierarchy and randomized learning order are required; practice awards no duplicate stars. Keep visual and functional regression tests in CI; release artefact gated on checks.
