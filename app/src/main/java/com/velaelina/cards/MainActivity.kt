@@ -188,6 +188,7 @@ private fun GameScreen(cards:List<CardData>) {
     val scroll=rememberScrollState()
     LaunchedEffect(screen,session?.race?.index,session?.race?.lastWrong,detail){scroll.scrollTo(0)}
     BackHandler(enabled=screen!="home"){if(detail!=null)detail=null else screen="home"}
+    if(screen=="parts") { PartsLesson(onHome={screen="home"}); return }
     Column(Modifier.fillMaxSize().safeDrawingPadding().padding(horizontal=14.dp,vertical=8.dp)){
         if(screen!="home"){
             Button(onClick={detail=null;screen="home"},modifier=Modifier.fillMaxWidth().heightIn(min=48.dp),
@@ -201,6 +202,7 @@ private fun GameScreen(cards:List<CardData>) {
             when(screen){
                 "home"->{
                     Text(stringResource(R.string.title),fontSize=30.sp,fontWeight=FontWeight.ExtraBold,color=Gold)
+                    Button(onClick={screen="parts"},modifier=Modifier.fillMaxWidth().heightIn(min=64.dp),shape=RoundedCornerShape(18.dp)){Text("Partes del barco",fontSize=24.sp,fontWeight=FontWeight.Bold)}
                     Artwork(art["regata.webp"],stringResource(R.string.regata_art),800f/516f)
                     Text(stringResource(R.string.draft),color=Lilac,fontSize=13.sp)
                     val s=session
