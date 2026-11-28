@@ -53,3 +53,6 @@ One canonical card database under app/src/main/assets/cards. Stable IDs, targete
 
 ## Unified system gate — Decision 014
 All game modes must follow docs/GAME_SYSTEM.md. The first-lesson prototype's 10-task/10-star goal and Regata's 3-heart start are noncanonical prototype values; do not treat them as approved. New topics remain frozen. No runtime rule changes until the proposed shared lifecycle/reward rules are reviewed and integrated; do not build the first-lesson test with divergent systems.
+
+## Current milestone — Decision 015
+First interactive Parts lesson and shared training progress only; preserve existing cards/regatta. Final reward catalogue at docs/REWARDS.md. No further topics, passport design or photo feature until first lesson child testing passes.
