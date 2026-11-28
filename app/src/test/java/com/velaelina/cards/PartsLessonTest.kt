@@ -27,31 +27,72 @@ class PartsLessonTest {
             assertNotEquals(p,partsQuestions(kotlin.random.Random(seed),previous=p))
         }
     }
+    private fun finish(start:PartsState):PartsState {
+        var s=start
+        while(!s.done) s=s.answer(BoatHit(s.current),.5f,.5f).advance()
+        return s
+    }
+    private fun fail(start:PartsState):PartsState {
+        var s=start
+        repeat(s.lives) { s=s.answer(BoatHit(null),.5f,.5f).advance() }
+        return s
+    }
+    @Test fun threeHeartsAndProvisionalStarsUntilSuccess() {
+        var s=PartsState.resume(GameProgress())
+        assertEquals(3,s.lives);assertEquals(0,s.stars);assertEquals(0,s.progress.permanentStars)
+        repeat(6) {
+            s=s.answer(BoatHit(s.current),.5f,.5f).advance()
+            assertEquals(it+1,s.stars);assertEquals(0,s.progress.permanentStars)
+        }
+        val won=finish(s)
+        assertTrue(won.won);assertEquals(7,won.stars)
+        assertEquals(7,won.progress.permanentStars);assertEquals(7,won.progress.newStars)
+    }
+    @Test fun failureDiscardsAttemptButNotPreviousAchievements() {
+        val fresh=PartsState.resume(GameProgress())
+        val partial=fresh.answer(BoatHit(fresh.current),.5f,.5f).advance()
+        assertEquals(1,partial.stars)
+        val lost=fail(partial)
+        assertFalse(lost.won);assertEquals(0,lost.lives);assertEquals(0,lost.stars)
+        assertEquals(0,lost.progress.permanentStars);assertEquals(0,lost.progress.newStars)
+        val won=finish(PartsState.practice(lost.progress))
+        assertEquals(7,won.progress.permanentStars)
+        val practice=PartsState.practice(won.progress)
+        assertEquals(3,practice.lives);assertEquals(0,practice.stars)
+        val replayLost=fail(practice)
+        assertEquals(0,replayLost.stars);assertEquals(7,replayLost.progress.permanentStars)
+        assertEquals(0,replayLost.progress.newStars);assertFalse(replayLost.won)
+        val resumed=PartsState.resume(replayLost.progress)
+        assertTrue(resumed.done);assertFalse(resumed.won);assertEquals(0,resumed.stars)
+        val retry=PartsState.practice(replayLost.progress)
+        assertEquals(3,retry.lives);assertEquals(0,retry.stars)
+        val replayWon=finish(retry)
+        assertEquals(7,replayWon.stars);assertEquals(7,replayWon.progress.permanentStars)
+        assertEquals(0,replayWon.progress.newStars)
+    }
     @Test fun repeatedPracticeCannotFarmStars() {
         var p=GameProgress()
         repeat(30) {
-            var s=PartsState.practice(p)
-            while(!s.done) s=s.answer(BoatHit(s.current),.5f,.5f).advance()
+            val s=finish(PartsState.practice(p))
             p=s.progress
-            assertEquals(7,p.stars)
+            assertEquals(7,p.permanentStars);assertEquals(if(it==0)7 else 0,p.newStars)
         }
     }
     @Test fun correctIsAwardedOnceAndResumesWithoutDuplicateRewards() {
-        val s=PartsState(listOf(BoatPart.PROA))
-        val t=s.answer(BoatHit(BoatPart.PROA),.5f,.12f)
-        assertEquals(1,t.stars); assertEquals(GameRules.INITIAL_HEARTS,t.lives)
-        assertEquals(t,t.answer(BoatHit(BoatPart.PROA),.5f,.12f))
+        val s=PartsState.resume(GameProgress())
+        val task=s.current!!
+        val t=s.answer(BoatHit(task),.5f,.12f)
+        assertEquals(1,t.stars);assertEquals(3,t.lives);assertEquals(0,t.progress.permanentStars)
+        assertEquals(t,t.answer(BoatHit(task),.5f,.12f))
         val resumed=PartsState.resume(t.progress)
-        assertFalse(resumed.questions.contains(BoatPart.PROA))
-        val practice=PartsState(listOf(BoatPart.PROA),progress=t.progress).answer(BoatHit(BoatPart.PROA),.5f,.12f)
-        assertEquals(1,practice.stars)
+        assertFalse(resumed.questions.contains(task))
+        assertEquals(1,resumed.stars);assertEquals(0,resumed.progress.permanentStars)
     }
     @Test fun wrongCostsHeartAndRetainsQuestion() {
         val s=PartsState(listOf(BoatPart.PROA),progress=GameProgress(lives=2))
         assertEquals(s,s.answer(null,0f,0f))
         val t=s.answer(BoatHit(BoatPart.POPA),.5f,.8f)
-        assertEquals(1,t.lives); assertEquals(0,t.stars)
-        assertEquals(null,t.feedback?.reaction)
+        assertEquals(1,t.lives);assertEquals(0,t.stars)
         assertEquals(BoatPart.PROA,t.advance().current)
         val f=t.advance().answer(BoatHit(null),.5f,.5f)
         assertEquals(GameReaction.ERROR,f.feedback?.reaction)
@@ -66,13 +107,19 @@ class PartsLessonTest {
             s.feedback?.reaction?.let { reactions += it }
             s=s.advance()
         }
-        assertTrue(s.won); assertEquals(7,s.stars)
+        assertTrue(s.won);assertEquals(7,s.stars)
         assertEquals(listOf(GameReaction.STREAK,GameReaction.STREAK,GameReaction.COMPLETE),reactions)
         assertTrue(PartsState.resume(s.progress).won)
-        val wrong=GameRules.answer(s.progress,"future.task",false)
-        assertEquals(7,wrong.stars);assertEquals(9,wrong.lives)
-        val later=GameRules.answer(wrong,"future.task",true)
-        assertEquals(8,later.stars)
+        val future=GameRules.newAttempt(s.progress)
+        val later=GameRules.answer(future,"future.task",true,setOf("future.task"))
+        assertEquals(8,later.permanentStars);assertEquals(1,later.newStars)
+    }
+    @Test fun legacyMigrationOnlyCreditsFullLesson() {
+        val complete=GameRules.migrateLegacy(PARTS_TASK_IDS,PARTS_TASK_IDS)
+        assertEquals(7,complete.permanentStars);assertEquals(0,complete.newStars)
+        assertEquals(3,complete.lives)
+        val partial=GameRules.migrateLegacy(PARTS_TASK_IDS.take(4).toSet(),PARTS_TASK_IDS)
+        assertEquals(0,partial.permanentStars);assertEquals(0,partial.stars)
     }
     @Test fun seriesResetAndCompletionPriority() {
         var series=AnswerSeries()
@@ -87,7 +134,7 @@ class PartsLessonTest {
     }
     @Test fun exhaustedStateCannotAward() {
         val p=GameProgress(lives=0)
-        assertEquals(p,GameRules.answer(p,"test.task",true))
-        assertEquals(p,GameRules.answer(p,"test.task",false))
+        assertEquals(p,GameRules.answer(p,"test.task",true,setOf("test.task")))
+        assertEquals(p,GameRules.answer(p,"test.task",false,setOf("test.task")))
     }
 }

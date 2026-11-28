@@ -78,7 +78,7 @@ internal data class PartsState(
         val task = current ?: return this
         if (hit == null || done || feedback != null) return this
         val correct = hit.part == task
-        val nextProgress = GameRules.answer(progress,task.taskId,correct)
+        val nextProgress = GameRules.answer(progress,task.taskId,correct,PARTS_TASK_IDS)
         val completed = correct && index == questions.lastIndex && nextProgress.mastered(PARTS_TASK_IDS)
         val (nextSeries,reaction) = series.accept(correct,completed)
         return copy(progress = nextProgress,series=nextSeries,
@@ -90,8 +90,8 @@ internal data class PartsState(
     }
     companion object {
         fun resume(progress: GameProgress, previous: List<BoatPart> = emptyList()): PartsState =
-            PartsState(questions = partsQuestions(candidates=BoatPart.entries.filterNot { it.taskId in progress.completed },previous=previous),progress=progress)
+            PartsState(questions = if(progress.exhausted) emptyList() else partsQuestions(candidates=BoatPart.entries.filterNot { it.taskId in progress.completed },previous=previous),progress=progress)
         fun practice(progress: GameProgress, previous: List<BoatPart> = emptyList()): PartsState =
-            PartsState(questions=partsQuestions(previous=previous),progress=progress)
+            PartsState(questions=partsQuestions(previous=previous),progress=GameRules.newAttempt(progress))
     }
 }

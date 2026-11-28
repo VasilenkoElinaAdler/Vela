@@ -34,3 +34,6 @@ See docs/QA_GATE.md. Home hierarchy and randomized learning order are required; 
 Shared AnswerSeries/ReactionRules, reusable ReactionPanel. Two consecutive wrong, three consecutive correct, and lesson completion (priority) produce approved images; 1500 ms. No extra stars or lost hearts. Opposite answer resets run of responses; triggered series resets to zero. Navigation starts a fresh reaction series without changing saved training progress. Seven unique task IDs for this lesson. No unapproved edits.
 
 Decision 019 correction: final completion panel remains visible with ¡MISIÓN CUMPLIDA!; intermediate reactions are temporary (1500 ms). Android journey asserts each exact caption and image.
+
+## Decision 020 — approved mission economy (supersedes prior ten-heart and immediate-award rules)
+Three hearts per new mission attempt, provisional current-task stars, atomic permanent awards on successful completion, zero current stars on loss, preserve all earlier permanent achievements, no duplicate awards on replay. Home shows permanent count; mission header shows attempt count. Store schema v2 separates lives, attempt IDs, earned IDs and newly awarded IDs. Qualification uses permanent awards only. Mission replay starts fresh; resume preserves attempt. No changes to competition rules or content. See Decisions and QA_GATE.

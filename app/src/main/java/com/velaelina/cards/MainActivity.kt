@@ -212,7 +212,7 @@ private fun GameScreen(cards:List<CardData>) {
                     Text(stringResource(R.string.draft),color=Lilac,fontSize=13.sp)
                     OutlinedButton(onClick={screen="album"},modifier=Modifier.fillMaxWidth().heightIn(min=52.dp)){Text(stringResource(R.string.collection,knowledge.collected.size,cards.size),fontSize=18.sp)}
                     val training=GameProgressStore(context).load()
-                    ProgressHeader(training,PARTS_TASK_IDS)
+                    Text(stringResource(R.string.progress_permanent_stars,training.permanentStars),color=Gold,fontSize=18.sp,fontWeight=FontWeight.Bold)
                 }
                 "play"->session?.let{s->
                     val r=s.race;val c=s.deck[r.index]

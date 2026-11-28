@@ -120,13 +120,17 @@ internal fun PartsLesson(onHome:()->Unit) {
                     horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(8.dp)) {
                     if(state.won) {
                         ReactionPanel(GameReaction.COMPLETE,assets.reaction(GameReaction.COMPLETE),Modifier.weight(1f).fillMaxWidth())
+                        Text(stringResource(R.string.progress_new_stars,state.progress.newStars),fontSize=18.sp,color=PartsGold)
                         Text(stringResource(R.string.parts_practice_note),textAlign=TextAlign.Center,fontSize=16.sp)
                     } else {
                         Box(Modifier.weight(1f).fillMaxWidth(),contentAlignment=Alignment.Center) {
-                            Text(stringResource(R.string.parts_no_lives),fontSize=34.sp,fontWeight=FontWeight.ExtraBold,color=PartsGold,textAlign=TextAlign.Center)
+                            Column(horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(12.dp)) {
+                                Text(stringResource(R.string.parts_no_lives),fontSize=34.sp,fontWeight=FontWeight.ExtraBold,color=PartsGold,textAlign=TextAlign.Center)
+                                Text(stringResource(R.string.progress_new_stars,0),fontSize=22.sp,color=PartsGold)
+                            }
                         }
                     }
-                    Button(onClick={assets.release();state=(if(state.won) PartsState.practice(state.progress,store.previousPartsOrder()) else PartsState.resume(store.restart(),store.previousPartsOrder())).also { store.savePartsOrder(it.questions) }},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
+                    Button(onClick={assets.release();state=PartsState.practice(state.progress,store.previousPartsOrder()).also { store.save(it.progress);store.savePartsOrder(it.questions) }},modifier=Modifier.fillMaxWidth().heightIn(min=54.dp)) {Text(stringResource(if(state.won) R.string.parts_practice else R.string.parts_restart),fontSize=22.sp)}
                     OutlinedButton(onClick=onHome,modifier=Modifier.fillMaxWidth().heightIn(min=48.dp)){Text(stringResource(R.string.parts_exit),fontSize=20.sp)}
                 }
             } else {

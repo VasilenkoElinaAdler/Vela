@@ -11,3 +11,6 @@ The 4-term technical prototype is not a complete lesson. See docs/PARTS_CURRICUL
 
 ## Decision 019
 Independent catalogue and asset validation, all seven hit targets, randomness, repeated awards, exact reaction thresholds and 1500ms, completion priority, actual emulator reaction views. Compile Android test source before emulator startup; fix previous TouchInjectionScope.size compilation error using centre coordinates. Keep APK upload gated on all checks.
+
+## Decision 020 regression gate
+Check 3 initial hearts, provisional stars with zero permanent credit before success, third error clears attempt stars, full success awards exactly seven once, replay starts 3/0, successful replay earns +0, intentional failure after prior success displays zero attempt stars while home shows seven earned. Test persistence after exit/recreation, retry and legacy full vs incomplete migration. Keep all existing tests and APK upload gate.

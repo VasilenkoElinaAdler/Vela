@@ -11,3 +11,6 @@ Status: product direction recorded 2026-11-28. Catalogue only; no new screens or
 
 ## Captain's Passport — deferred design brief
 A convincing captain-card-style game souvenir in Bubble Gum colours, with optional child selfie/photo placed in the portrait space. Clearly identify it as a Vela Elina game achievement, not an official maritime licence or identity document. Design, camera/photo permissions, local-only storage and privacy review are deferred. No real identity data, upload, accounts or new permissions are needed for the first-lesson test. Do not generate passport art or code now.
+
+## Decision 020 (approved)
+Three hearts per mission attempt. Stars earned in an attempt are provisional until successful completion; failure discards them. Permanent stars are never revoked by a replay failure, never duplicated, and are the only qualification currency. No additional reward types or changes to cup/passport targets.

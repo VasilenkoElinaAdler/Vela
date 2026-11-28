@@ -23,7 +23,7 @@ private fun ProgressSymbols(count:Int, maximum:Int, isHeart:Boolean) {
     val label = stringResource(if(isHeart) R.string.progress_lives else R.string.progress_tasks, count, maximum)
     Canvas(Modifier.fillMaxWidth().height(29.dp).clip(RoundedCornerShape(20.dp))
         .background(VelaPalette.Purple).semantics { contentDescription = label }) {
-        val r = minOf(size.width / GameRules.INITIAL_HEARTS * .36f, size.height*.40f)
+        val r = minOf(size.width / maxOf(maximum,7) * .36f, size.height*.40f)
         val step = if(maximum>1) (size.width-2*r)/ (maximum-1) else 0f
         for(i in 0 until maximum) {
             val x = if(maximum==1) size.width*.5f else r+step*i; val y = size.height*.5f
@@ -58,6 +58,6 @@ internal fun ProgressHeader(progress: GameProgress, required: Set<String>) {
         if (required.size in 2..10) {
             ProgressSymbols(required.count { it in progress.completed },required.size,false)
         }
-        Text(stringResource(R.string.progress_stars,progress.stars),color=VelaPalette.Gold,fontSize=15.sp)
+        Text(stringResource(R.string.progress_attempt_stars,progress.stars,required.size),color=VelaPalette.Gold,fontSize=15.sp)
     }
 }

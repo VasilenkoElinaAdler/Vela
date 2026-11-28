@@ -59,6 +59,18 @@ class GameJourneyTest {
         rule.onNodeWithContentDescription("Gaviota volando con un pez hacia la izquierda").assertIsDisplayed()
         return order
     }
+    private fun failAttempt() {
+        repeat(progress().lives) {
+            val wrong=listOf("PROA","POPA","BABOR","ESTRIBOR","TIMÓN","FOQUE","VELA MAYOR").first{it!=word()}
+            tapPart(wrong)
+            rule.mainClock.advanceTimeBy(1800)
+            rule.waitForIdle()
+        }
+        rule.onNodeWithText("¡Inténtalo de nuevo!").assertIsDisplayed()
+        rule.onNodeWithText("Estrellas de la misión: 0/7").assertIsDisplayed()
+        rule.onNodeWithText("Nuevas estrellas: +0").assertIsDisplayed()
+        assertEquals(0,progress().lives);assertEquals(0,progress().stars)
+    }
     @Test fun mainJourney() {
         rule.runOnIdle {
             rule.activity.getSharedPreferences("vela_progress",Context.MODE_PRIVATE).edit().clear().commit()
@@ -74,12 +86,12 @@ class GameJourneyTest {
         assertTrue(play.bottom <= regata.top)
         assertTrue(kotlin.math.abs((play.left+play.right).value/2-(art.left+art.right).value/2)<2f)
         rule.onNodeWithText("Jugar").performClick()
-        assertEquals(10,progress().lives)
+        assertEquals(3,progress().lives)
         assertEquals(0,progress().stars)
         val first=word()
         val wrong=listOf("PROA","POPA","BABOR","ESTRIBOR","TIMÓN","FOQUE","VELA MAYOR").first{it!=first}
         tapPart(wrong)
-        rule.waitUntil(5000){progress().lives==9}
+        rule.waitUntil(5000){progress().lives==2}
         rule.mainClock.advanceTimeBy(800)
         rule.mainClock.autoAdvance=false
         tapPart(wrong)
@@ -89,25 +101,43 @@ class GameJourneyTest {
         rule.onNodeWithContentDescription("Tres gaviotas sorprendidas").assertExists()
         rule.mainClock.advanceTimeBy(1800)
         rule.mainClock.autoAdvance=true
-        rule.waitUntil(5000){progress().lives==8}
+        rule.waitUntil(5000){progress().lives==1}
         assertEquals(0,progress().stars)
+        // Earn a provisional star, then lose the last heart.
+        tapPart(word())
+        rule.mainClock.advanceTimeBy(800)
+        assertEquals(1,progress().stars);assertEquals(0,progress().permanentStars)
+        failAttempt()
+        assertEquals(0,progress().permanentStars)
+        rule.onNodeWithText("Empezar de nuevo").performClick()
+        assertEquals(3,progress().lives);assertEquals(0,progress().stars)
         val a=completeRound()
         assertEquals(7,a.toSet().size)
-        assertEquals(7,progress().stars)
+        assertEquals(7,progress().permanentStars)
+        rule.onNodeWithText("Nuevas estrellas: +7").assertIsDisplayed()
         rule.onNodeWithText("Practicar otra vez").performClick()
+        assertEquals(3,progress().lives);assertEquals(0,progress().stars)
+        assertEquals(7,progress().permanentStars)
         val b=completeRound()
         assertNotEquals(a,b)
-        assertEquals(7,progress().stars)
-        assertEquals(8,progress().lives)
+        assertEquals(7,progress().permanentStars)
+        rule.onNodeWithText("Nuevas estrellas: +0").assertIsDisplayed()
+        // Regression: previously successful mission, then fail a new replay.
+        rule.onNodeWithText("Practicar otra vez").performClick()
+        failAttempt()
+        assertEquals(7,progress().permanentStars)
         rule.onNodeWithText("← Inicio").performClick()
+        rule.onNodeWithText("Estrellas conseguidas: 7").assertExists()
         rule.onNodeWithText("Jugar").performClick()
-        rule.onNodeWithText("Practicar otra vez").assertIsDisplayed()
-        assertEquals(7,progress().stars)
+        rule.onNodeWithText("¡Inténtalo de nuevo!").assertIsDisplayed()
+        assertEquals(0,progress().stars)
         rule.activityRule.scenario.recreate()
         rule.waitForIdle()
         rule.onNodeWithText("Jugar").performClick()
-        rule.onNodeWithText("Practicar otra vez").assertIsDisplayed()
-        assertEquals(7,progress().stars)
-        assertEquals(8,progress().lives)
+        rule.onNodeWithText("¡Inténtalo de nuevo!").assertIsDisplayed()
+        assertEquals(0,progress().stars);assertEquals(7,progress().permanentStars)
+        rule.onNodeWithText("Empezar de nuevo").performClick()
+        assertEquals(3,progress().lives);assertEquals(0,progress().stars)
+        assertEquals(7,progress().permanentStars)
     }
 }
