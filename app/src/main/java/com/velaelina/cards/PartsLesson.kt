@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.ImageBitmap
@@ -169,7 +168,7 @@ private fun MissionLesson(mission:PartsMission,store:GameProgressStore,assets:Pa
                     val ratio=mission.aspectRatio
                     val width=minOf(maxWidth,maxHeight*ratio)
                     Box(Modifier.width(width).aspectRatio(ratio).clip(RoundedCornerShape(18.dp))
-                        .then(if(mission==PartsMission.SIDE) Modifier.background(Brush.horizontalGradient(listOf(Color(0xFF9415C6),VelaPalette.Purple))).border(2.dp,VelaPalette.Muted,RoundedCornerShape(18.dp)) else Modifier)
+                        .then(if(mission==PartsMission.SIDE) Modifier.background(VelaPalette.Purple).border(2.dp,VelaPalette.Muted,RoundedCornerShape(18.dp)) else Modifier)
                         .testTag("parts_field").pointerInput(state.index,state.lives,state.feedback){
                             detectTapGestures{ p ->
                                 val x=p.x/size.width; val y=p.y/size.height

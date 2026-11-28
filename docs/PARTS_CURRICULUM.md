@@ -3,3 +3,6 @@ Exactly seven required terms: PROA, POPA, BABOR, ESTRIBOR, TIMÓN, FOQUE, VELA M
 
 ## Decision 021 — second mission (side view)
 FOQUE (red foresail), VELA MAYOR (blue mainsail), CASCO (yellow hull), ORZA (central board below hull), BOTAVARA (horizontal red boom), MÁSTIL (orange vertical mast). All six required; separate task IDs for this view. The approved original image is transparent over the purple field. No additional terms. First mission's seven targets unchanged. Side available only after successful TOP. Independent catalogue in parts_curriculum.json.
+
+## Decision 022
+Final owner-approved Tropical Bubble side illustration supersedes the earlier white-background/transparent variant. Full 1208x1302 raster, no geometry redraw or UI edits. Six targets unchanged, normalized hit map recalibrated; top mission unchanged.

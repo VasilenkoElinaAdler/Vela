@@ -1,5 +1,5 @@
 """Independent curriculum and archive checks for both image missions."""
-import json,re,zipfile
+import json,re,zipfile,hashlib
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 spec=json.loads((root/'docs/parts_curriculum.json').read_text())
@@ -16,6 +16,8 @@ for archive,entries in [('vela_parts_assets_v2.zip',spec['assets']),('vela_parts
     with zipfile.ZipFile(zpath) as z:
         assert z.testzip() is None
         assert set(z.namelist())==set(entries)
+        if archive=='vela_parts_side_assets.zip':
+            assert hashlib.sha256(z.read('boat_side.webp')).hexdigest()=='46e17f878fce88ab5331976870436f932f5f5908ddb80e4e3040c2ddbb191119', 'Incorrect side-view illustration: use approved Tropical Bubble archive'
         for item in z.infolist():
             assert 0<item.file_size<=1_000_000,item.filename
             content=z.read(item.filename)

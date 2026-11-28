@@ -21,3 +21,6 @@ Seven approved targets and three original gull reactions. Required archive: app/
 
 ## 0.3.5 — second mission
 Side-view original art and four new offline pronunciations in app/src/main/assets/vela_parts_side_assets.zip. Reuse shared original feedback/audio and rules. First successful TOP unlocks SIDE, six tasks, 13 permanent stars total. No race redesign. Build only after both archives present.
+
+## Approved Tropical Bubble asset (Decision 022)
+Upload only the updated vela_parts_side_assets.zip containing the full approved raster and the four unchanged pronunciation files. Old side asset must not be used. CI verifies the approved WebP hash. No other design changes.

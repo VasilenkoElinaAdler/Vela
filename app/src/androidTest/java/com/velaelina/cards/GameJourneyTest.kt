@@ -19,16 +19,16 @@ class GameJourneyTest {
         val side=GameProgressStore(rule.activity.applicationContext).activeMission()==PartsMission.SIDE
         if(side) {
             val (x,y)=when(word){
-                "FOQUE" -> 930f to 760f
-                "VELA MAYOR" -> 500f to 650f
-                "CASCO" -> 650f to 1020f
-                "ORZA" -> 710f to 1150f
-                "BOTAVARA" -> 420f to 883f
-                "MÁSTIL" -> 780f to 350f
+                "FOQUE" -> 450f to 380f
+                "VELA MAYOR" -> 260f to 325f
+                "CASCO" -> 300f to 510f
+                "ORZA" -> 330f to 575f
+                "BOTAVARA" -> 210f to 444f
+                "MÁSTIL" -> 374f to 175f
                 else -> error("Unexpected side term: $word")
             }
             rule.onNodeWithTag("parts_field").performTouchInput {
-                click(Offset((x*1261f/1229f-180f)/960f*center.x*2f,y/1215f*center.y*2f))
+                click(Offset(x/592f*center.x*2f,y/638f*center.y*2f))
             }
             rule.waitForIdle();return
         }
@@ -77,13 +77,13 @@ class GameJourneyTest {
     }
     private fun failAttempt() {
         repeat(progress().lives) {
-            val wrong=listOf("PROA","POPA","BABOR","ESTRIBOR","TIMÓN","FOQUE","VELA MAYOR").first{it!=word()}
+            val wrong=GameProgressStore(rule.activity.applicationContext).activeMission().parts.first{it.word!=word()}.word
             tapPart(wrong)
             rule.mainClock.advanceTimeBy(1800)
             rule.waitForIdle()
         }
         rule.onNodeWithText("¡Inténtalo de nuevo!").assertIsDisplayed()
-        rule.onNodeWithText("Estrellas de la misión: 0/7").assertIsDisplayed()
+        rule.onNodeWithText("Estrellas de la misión: 0/${GameProgressStore(rule.activity.applicationContext).activeMission().parts.size}").assertIsDisplayed()
         rule.onNodeWithText("Nuevas estrellas: +0").assertIsDisplayed()
         assertEquals(0,progress().lives);assertEquals(0,progress().stars)
     }
@@ -178,7 +178,18 @@ class GameJourneyTest {
         completeRound(6)
         assertEquals(13,progress().permanentStars)
         rule.onNodeWithText("Nuevas estrellas: +0").assertIsDisplayed()
+        // Fail a side replay after gaining a provisional star; retain all 13 permanent stars.
+        rule.onNodeWithText("Practicar otra vez").performClick()
+        tapPart(word());rule.mainClock.advanceTimeBy(800)
+        assertEquals(1,progress().stars)
+        failAttempt()
+        assertEquals(13,progress().permanentStars)
         rule.onNodeWithText("← Inicio").performClick()
         rule.onNodeWithText("Estrellas conseguidas: 13").assertExists()
+        rule.onNodeWithText("Jugar").performClick()
+        rule.onNodeWithText("Estrellas de la misión: 0/6").assertIsDisplayed()
+        rule.onNodeWithText("Empezar de nuevo").performClick()
+        assertEquals(3,progress().lives);assertEquals(0,progress().stars)
+        assertEquals(13,progress().permanentStars)
     }
 }

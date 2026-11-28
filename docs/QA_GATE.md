@@ -17,3 +17,6 @@ Check 3 initial hearts, provisional stars with zero permanent credit before succ
 
 ## Decision 021
 Independent validation of both catalogues and 19 assets; side zones and thin-part tolerance, separate task IDs, correct order randomization, six-star completion, thirteen permanent stars, replay, unlock and persistent resume on Android. APK gate unchanged.
+
+## Decision 022
+Check final side raster SHA-256, exact target centers, narrow-part tolerance, neighboring sail precedence, normalized coordinate invariance at five widths; Android journey includes side replay failure after earlier wins and restart with 13 permanent stars. Actual device ergonomics remain to be tested. No APK upload until all checks pass.

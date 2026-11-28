@@ -48,7 +48,7 @@ internal fun boatHit(x: Float, y: Float): BoatHit? {
 /** The same lesson engine runs a new mission by changing only this catalogue. */
 internal enum class PartsMission(val storageKey:String, val art:String, val aspectRatio:Float, val parts:List<BoatPart>) {
     TOP("top","boat.webp",879f/899f,listOf(BoatPart.PROA,BoatPart.POPA,BoatPart.BABOR,BoatPart.ESTRIBOR,BoatPart.TIMON,BoatPart.FOQUE,BoatPart.VELA_MAYOR)),
-    SIDE("side","boat_side.webp",960f/1247f,listOf(BoatPart.FOQUE,BoatPart.VELA_MAYOR,BoatPart.CASCO,BoatPart.ORZA,BoatPart.BOTAVARA,BoatPart.MASTIL));
+    SIDE("side","boat_side.webp",1208f/1302f,listOf(BoatPart.FOQUE,BoatPart.VELA_MAYOR,BoatPart.CASCO,BoatPart.ORZA,BoatPart.BOTAVARA,BoatPart.MASTIL));
 
     fun taskId(part:BoatPart):String = if(this==TOP) part.taskId else "parts.side."+part.name.lowercase(java.util.Locale.ROOT)
     val required:Set<String> get() = parts.map{taskId(it)}.toSet()

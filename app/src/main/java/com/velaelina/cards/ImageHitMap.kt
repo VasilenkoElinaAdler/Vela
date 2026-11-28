@@ -28,27 +28,27 @@ internal class ImageHitMap(private val exact:List<HitZone>,private val tolerance
 private fun polygon(vararg xy:Int):HitShape = HitPolygon(xy.toList().chunked(2).map{HitPoint(it[0].toFloat(),it[1].toFloat())})
 private fun rect(l:Int,t:Int,r:Int,b:Int):HitShape = HitRect(l.toFloat(),t.toFloat(),r.toFloat(),b.toFloat())
 
-// Canonical original 1229 x 1215 preview coordinates, mapped to the source JPEG
-// (1261 x 1247) crop x=180..1140, y=0..1247. No image stretching.
-// Mast and boom are exact first; modest tolerance only if no real target was hit.
+// Owner-approved Tropical Bubble raster, full frame 1208 x 1302.
+// Reference coordinates are on its proportional 592 x 638 review image.
+// No crop, stretching or visible geometry. Exact parts win over tolerance.
 private val sideZones=ImageHitMap(
     exact=listOf(
-        HitZone(BoatPart.MASTIL,rect(767,3,795,949)),
-        HitZone(BoatPart.BOTAVARA,rect(203,872,766,895)),
-        HitZone(BoatPart.VELA_MAYOR,polygon(211,871,230,820,350,610,450,435,710,125,743,94,757,139,757,871)),
-        HitZone(BoatPart.FOQUE,polygon(808,822,814,670,827,545,855,456,875,456,1046,910,1068,938,1018,933,845,890)),
-        HitZone(BoatPart.CASCO,polygon(265,951,1090,942,1060,981,1023,1019,970,1054,900,1073,817,1078,265,1078)),
-        HitZone(BoatPart.ORZA,polygon(670,1079,750,1079,750,1190,742,1203,710,1210,681,1204,669,1190)),
-        // Visible but not assessed: rudder and tiller count as incorrect.
-        HitZone(null,polygon(210,952,257,944,257,1122,249,1141,230,1146,212,1134)),
-        HitZone(null,polygon(210,949,435,916,440,924,216,965))
+        HitZone(BoatPart.MASTIL,rect(366,8,383,476)),
+        HitZone(BoatPart.BOTAVARA,rect(81,437,371,451)),
+        HitZone(BoatPart.VELA_MAYOR,polygon(44,436,48,414,76,362,113,299,158,230,205,170,269,105,334,69,348,54,358,55,362,76,362,436)),
+        HitZone(BoatPart.FOQUE,polygon(384,417,385,366,389,313,396,270,407,236,415,230,421,235,505,449,520,470,493,470,450,460,410,447)),
+        HitZone(BoatPart.CASCO,polygon(109,477,263,477,397,475,529,472,515,490,498,506,479,519,454,530,424,537,393,541,109,542)),
+        HitZone(BoatPart.ORZA,polygon(312,543,354,543,354,598,351,605,343,610,333,612,321,609,315,605,312,599)),
+        // Visible non-target parts: rudder and tiller remain wrong answers.
+        HitZone(null,polygon(83,486,107,481,107,563,105,571,99,577,90,577,84,571)),
+        HitZone(null,polygon(83,479,199,459,201,465,84,486))
     ),
     tolerance=listOf(
-        HitZone(BoatPart.MASTIL,rect(755,0,808,950)),
-        HitZone(BoatPart.BOTAVARA,rect(198,864,772,906))
+        HitZone(BoatPart.MASTIL,rect(360,4,389,477)),
+        HitZone(BoatPart.BOTAVARA,rect(78,432,373,456))
     )
 )
 internal fun sideBoatHit(x:Float,y:Float):BoatHit? {
     if(x !in 0f..1f || y !in 0f..1f) return null
-    return sideZones.hit((180f+x*960f)*1229f/1261f,y*1215f)
+    return sideZones.hit(x*592f,y*638f)
 }
